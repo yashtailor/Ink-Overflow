@@ -5,6 +5,6 @@ A webiste which helps all the literature enthusiasts to share and get help on th
 
 
 ##      INK OVERFLOW
- _never hesitate to write_
+ _never hesitate to write!_
 
 
