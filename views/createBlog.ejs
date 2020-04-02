@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+<style>
+    a{
+        font-size: 20px;
+    }
+    span{
+        font-size: 30px;
+        padding-right: 20px;
+        padding-left: 20px;
+        height:40px;
+        border:2px solid black;
+        box-shadow: 2px 2px black;
+    }
+</style>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+ -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<!-- <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
+</head>
+<script>
+  $(document).ready(function() {
+  $('#embolden').click(function() {
+    console.log('hey')
+    document.execCommand('bold');
+  });
+});
+</script>
+<body style="background-color: crimson; text-align: center; color:white; font-weight: normal; ">
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" style="margin:10px;border-radius:8px ;padding-bottom: 5px;">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">Menu</button>
+            <a class="navbar-brand" href="/">Ink Overflow<br>
+            <span style="font-size: x-small;"><i>Never hesitate to write!</i></span></a>
+          </div>
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-collapse">
+              <li><a href="/feed">Feed</a></li>
+              <li><a href="/<%= user._id %>/profile">Profile</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right navbar-collapse">
+              <li><a href="/register">Register</a></li>
+              <li><a href="/login">Login</a></li>
+              <li><a href="/logout">Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div style="margin-top: 100px; color:black">
+      <span id="i"><i>I</i></span>
+      <button id="jBold"><b>B</b></button>
+      <span style="text-decoration: underline;" onclick="underline()">U</span>
+
+        <h3 style="color: white;">TITLE:</h3>
+        <input type="text" name="title" style="width: 800px; margin-bottom: 30px; height:30px; font-size: 25px;">
+        <h3 style="color: white;">POST:</h3>
+        <div name="blogtext" id="blog" placeholder="blog text" style="font-size:20px; font-weight: lighter; width:500px;height:500px; background-color: blanchedalmond;" contenteditable>
+          
+        </div>
+      </div>
+      <footer style="margin-top: 50px; text-align: right; padding-right: 20px;">
+         Love from INK OVERFLOW<br>
+        <i>Never hesitate to write!</i>
+      </footer>
+    </body>
+</html>

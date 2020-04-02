@@ -1,0 +1,82 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+<body style="background-color: lightpink;">
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" style="margin:10px;border-radius:8px">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">Menu</button>
+            <a class="navbar-brand" href="/">Ink Overflow</a>
+          </div>
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><a href="/feed">Feed</a></li>
+              <li><a href="/<%= user._id %>/profile">Profile</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/register">Register</a></li>
+              <li><a href="/login">Login</a></li>
+              <li><a href="/logout">Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <div style="padding-top: 50px;">
+        <% posts.forEach(function(post){ %>
+            <div class="container" style="font-size: 20px; padding: 20px; margin: 20px; border: 3px solid black; background-color: lightgreen; border-radius: 20px">
+                <p><%= post.text %></p>
+                <a href="/<%= post.author._id %>/profile"> - <%= post.author.username %></a>
+                <form action="/<%= post._id %>/increaseLike" method="POST">
+                    <button class="btn btn-danger">Like</button>
+                    <%= post.likes.number %>
+                </form>
+                <form action="/<%= post._id %>/addComment" method="POST">
+                    <input type="text" name="comment_text" placeholder="comment">
+                    <button class="btn btn-info">Comment</button>
+                </form>
+                <hr>
+                <h4>Comments:</h4>
+                <% post.comments.forEach(function(comment){ %>
+                    <div  style="font-size: 20px;margin:3px; border:1px solid black; padding: 5px; border-radius: 20px">
+                        <p>
+                            <a href="/<%= post.author._id %>/profile">@<%= post.author.username %></a>
+                            &nbsp; &nbsp;
+                            <%= comment.text %>
+                        </p>
+                        <p>by - <a href="/<%= post.author._id %>/profile"><%= comment.author.username %></a></p>
+                        <form action="/<%= comment._id %>/commentLike" style="float: left;" method="POST">
+                            <button class="btn btn-danger">like</button>
+                            <%= comment.likes.number %>
+                        </form>
+                        
+                        <form action="/<%= comment._id %>/<%= comment.author._id %>/addInnerComment" method="POST">
+                            <input type="text" name="comment_text" placeholder="comment">
+                            <button class="btn btn-success">Comment</button>
+                        </form>
+                        <% comment.innerComments.forEach(function(innerC){ %>
+                            <div style="margin-left: 40px; border:1px solid green; border-radius: 20px; padding: 5px;">
+                                <a href="/profile/<%= innerC.Tauthor._id %>">@<%= innerC.Tauthor.username %></a>
+                                <p><%= innerC.text %></p>
+                                <a href="/profile/<%= innerC.Fauthor._id %>">-<%= innerC.Fauthor.username %></a><br>
+                                <form action="/<%= innerC._id %>/innerCommentLike" method="POST" style="float: left;">
+                                    <button class="btn btn-danger">like</button><%= innerC.likes.number %>
+                                </form>
+                                <form action="/<%= comment._id %>/<%= innerC.Fauthor._id %>/addInnerComment" method="POST">
+                                    <input type="text" placeholder="comment" name="comment_text">
+                                    <button class="btn btn-info">comment</button>
+                                </form>
+                            </div>
+                        <% }) %>
+                    </div>
+                <% }) %>
+            </div>
+        <% })%>
+    </div>
+</body>
+</html>
