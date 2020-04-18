@@ -1,71 +1,116 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <style>
-    a{
-        font-size: 20px;
-    }
-    span{
-        font-size: 30px;
-        padding-right: 20px;
-        padding-left: 20px;
-        height:40px;
-        border:2px solid black;
-        box-shadow: 2px 2px black;
-    }
+  #textarea {
+  width: 90%;
+  height: 700px;
+  border: 3px solid blue;
+  margin: auto;
+  text-align: left;
+  background-color: white;
+}
+
+button {
+  font-weight: bold;
+}
+body{
+  text-align: center;
+  margin: 10px;
+  background-color: darkcyan;
+}
 </style>
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
- -->
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<!-- <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
-</head>
-<script>
-  $(document).ready(function() {
-  $('#embolden').click(function() {
-    console.log('hey')
+<div style="border: 3px solid blue; width:90%; margin:auto">
+  <span style="font-size: 20px; color:white">Pallete :</span> 
+<button id="jBold"><b>B</b></button>
+<button id="jItalicize"><i>i</i></button>
+<button id="jUnderline"><u>U</u></button>
+<button id="jSubscript">x<sub>y</sub></button>
+<button id="jSuperscript">x<sup>y</sup></button>
+<button id="jStrikethrough" style="text-decoration: line-through;">cancel</button>
+<button id="jfontsize1"><b>H1</b></button>
+<button id="jfontsize2"><b>H2</b></button>
+<button id="jfontsize3"><b>H3</b></button>
+<button id="jfontsize4"><b>H4</b></button>
+<button id="jfontsize5"><b>H5</b></button>
+<button id="jfontsize6"><b>H6</b></button>
+<button id="jfontsize7"><b>H7</b></button>
+<button id="jcolorRed"><b>Red</b></button>
+<button id="jcolorGreen"><b>Green</b></button>
+<button id="jcolorBlue"><b>Blue</b></button>
+<button id="jcolorBlack"><b>Black</b></button>
+<button id="jfontHelvetica"><b>Helvetica</b></button>
+<button id="jfontArial"><b>Arial</b></button>
+<button id="jfontVerdana"><b>Verdana</b></button>
+<button id="jfontSans"><b>Sans-serif</b></button>
+<button style="background-color: blue; color: white;">SUBMIT</button>
+</div>
+<div id='textarea' contenteditable style="margin-top: 20px;">
+  
+  <script>
+    $(document).ready(function() {
+    $('#jBold').click(function() {
     document.execCommand('bold');
   });
+  $('#jItalicize').click(function() {
+    document.execCommand('italic');
+  });
+  $('#jUnderline').click(function() {
+    document.execCommand('underline');
+  });
+  $('#jSubscript').click(function() {
+    document.execCommand('subscript');
+  });
+  $('#jSuperscript').click(function() {
+    document.execCommand('superscript');
+  });
+  $('#jStrikethrough').click(function() {
+    document.execCommand('strikethrough');
+  });
+  $('#jfontsize1').click(function() {
+    document.execCommand("fontSize", false, 1);
+  });
+  $('#jfontsize2').click(function() {
+    document.execCommand("fontSize", false, 2);
+  });
+  $('#jfontsize3').click(function() {
+    document.execCommand("fontSize", false, 3);
+  });
+  $('#jfontsize4').click(function() {
+    document.execCommand("fontSize", false, 4);
+  });
+  $('#jfontsize5').click(function() {
+    document.execCommand("fontSize", false, 5);
+  });
+  $('#jfontsize6').click(function() {
+    document.execCommand("fontSize", false, 6);
+  });
+  $('#jfontsize7').click(function() {
+    document.execCommand("fontSize", false, 7);
+  });
+  $('#jcolorRed').click(function() {
+    document.execCommand("forecolor", false, '#ff0000');
+  });
+  $('#jcolorGreen').click(function() {
+    document.execCommand("forecolor", false, '#00ff00');
+  });
+  $('#jcolorBlue').click(function() {
+    document.execCommand("forecolor", false, '#0000ff');
+  });
+  $('#jcolorBlack').click(function() {
+    document.execCommand("forecolor", false, '#000000');
+  });
+  $('#jfontHelvetica').click(function() {
+    document.execCommand("fontName", false, 'helvetica');
+  });
+  $('#jfontVerdana').click(function() {
+    document.execCommand("fontName", false, 'verdana');
+  });
+  $('#jfontArial').click(function() {
+    document.execCommand("fontName", false, 'arial');
+  });
+  $('#jfontSans').click(function() {
+    document.execCommand("fontName", false, 'sans-serif');
+  });
 });
-</script>
-<body style="background-color: crimson; text-align: center; color:white; font-weight: normal; ">
-    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" style="margin:10px;border-radius:8px ;padding-bottom: 5px;">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">Menu</button>
-            <a class="navbar-brand" href="/">Ink Overflow<br>
-            <span style="font-size: x-small;"><i>Never hesitate to write!</i></span></a>
-          </div>
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-collapse">
-              <li><a href="/feed">Feed</a></li>
-              <li><a href="/<%= user._id %>/profile">Profile</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right navbar-collapse">
-              <li><a href="/register">Register</a></li>
-              <li><a href="/login">Login</a></li>
-              <li><a href="/logout">Logout</a></li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-      <div style="margin-top: 100px; color:black">
-      <span id="i"><i>I</i></span>
-      <button id="jBold"><b>B</b></button>
-      <span style="text-decoration: underline;" onclick="underline()">U</span>
-
-        <h3 style="color: white;">TITLE:</h3>
-        <input type="text" name="title" style="width: 800px; margin-bottom: 30px; height:30px; font-size: 25px;">
-        <h3 style="color: white;">POST:</h3>
-        <div name="blogtext" id="blog" placeholder="blog text" style="font-size:20px; font-weight: lighter; width:500px;height:500px; background-color: blanchedalmond;" contenteditable>
-          
-        </div>
-      </div>
-      <footer style="margin-top: 50px; text-align: right; padding-right: 20px;">
-         Love from INK OVERFLOW<br>
-        <i>Never hesitate to write!</i>
-      </footer>
-    </body>
-</html>
+  </script>
+</div>
+<button style="background-color: blue; color: white; margin-top: 10px; width: 100px; height:50px; border: 2px solid blueviolet;">SUBMIT</button>

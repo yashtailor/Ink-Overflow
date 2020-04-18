@@ -61,9 +61,9 @@
                         </form>
                         <% comment.innerComments.forEach(function(innerC){ %>
                             <div style="margin-left: 40px; border:1px solid green; border-radius: 20px; padding: 5px;">
-                                <a href="/profile/<%= innerC.Tauthor._id %>">@<%= innerC.Tauthor.username %></a>
+                                <a href="<%= innerC.Tauthor._id %>/profile/">@<%= innerC.Tauthor.username %></a>
                                 <p><%= innerC.text %></p>
-                                <a href="/profile/<%= innerC.Fauthor._id %>">-<%= innerC.Fauthor.username %></a><br>
+                                <a href="<%= innerC.Fauthor._id %>/profile/">-<%= innerC.Fauthor.username %></a><br>
                                 <form action="/<%= innerC._id %>/innerCommentLike" method="POST" style="float: left;">
                                     <button class="btn btn-danger">like</button><%= innerC.likes.number %>
                                 </form>

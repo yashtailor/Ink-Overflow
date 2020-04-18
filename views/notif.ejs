@@ -1,0 +1,27 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @font-face { font-family: AndaleMono; src: url('AndaleMono.ttf'); } 
+      
+    </style>
+</head>
+<body style="background-color: black; color: white; font-family:'Courier New', Courier, monospace">
+    <p>Enter X1,Y1,X2,Y2 50 50 100 120</p>
+    <canvas id="myCanvas" height="130" width="500"></canvas>
+    <% a.forEach(function(ele){ %>
+        <p style="padding: 0; margin: 0;"><%= ele[0] %> &nbsp;<%= ele[1] %></p>
+    <% })%>
+</body>
+<script>
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+ctx.beginPath();
+ctx.moveTo(50,50);
+ctx.lineTo(100, 120);
+ctx.strokeStyle = "#0000FF";
+ctx.stroke();
+</script>
+</html>

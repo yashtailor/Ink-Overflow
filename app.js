@@ -23,7 +23,7 @@ var express = require('express'),
     request = require('request')
 
 var app = express()
-mongoose.connect('mongodb://localhost/ink_clone')
+mongoose.connect('mongodb://localhost/ink_overflow')
 // var MONGO_STRING = 'mongodb+srv://yash:yash@cluster0-jyzyx.mongodb.net/test?retryWrites=true&w=majority'
 // mongoose.connect(MONGO_STRING, {
 //     dbName: 'ink',
@@ -384,6 +384,10 @@ app.post('/:cid/:aid/addInnerComment',function(req,res){
 
 app.get('/createBlog',function(req,res){
     res.render('createBlog',{user:req.user})
+})
+
+app.get('/notifs',function(req,res){
+   
 })
 
 app.listen(process.env.PORT||3000,function(){
