@@ -1,24 +1,30 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
 </head>
+
 <body>
     <a href="/followersList">followers</a> - <%= user.followers.number %>
     <a href="/followingsList">following</a> - <%= user.following.number %>
     <% if(flag){ %>
-        <form action="/<%= user._id %>/addFollower" method="POST">
-            <button class="btn btn-success">Follow</button>
-        </form>
+    <form action="/<%= user._id %>/addFollower" method="POST">
+        <button class="btn btn-success">Follow</button>
+    </form>
     <% }%>
     <% user.posts.forEach(function(post){ %>
-        <div class="container" style="font-size: 20px; padding: 20px; margin: auto; border: 1px solid black;">
-            <p><%= post.text %></p>
-            <p> - <%= post.author %></p>
-        </div>
+    <div class="container" style="font-size: 20px; padding: 20px; margin: auto; border: 1px solid black;">
+        <p><%= post.text %></p>
+        <p> - <%= post.author %></p>
+
+
+    </div>
     <% })%>
 </body>
+
 </html>

@@ -1,21 +1,21 @@
 var mongoose = require('mongoose')
 
 var postSchema = new mongoose.Schema({
-    text:String,
-    author:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
+    text: String,
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
-    likes:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Like'
+    likes: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Like'
     },
-    comments:[
+    comments: [
         {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'Comment'
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment'
         }
     ],
 })
 
-module.exports = mongoose.model('Post',postSchema)
+module.exports = mongoose.model('Post', postSchema)
