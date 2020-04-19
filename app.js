@@ -38,6 +38,14 @@ passport.use('local', new passportLocal(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
+app.use(function (req, res, next) {
+    res.locals.currentUser = req.user;
+    // res.locals.error = req.flash("error");
+    //res.locals.success = req.flash("success");
+
+    next();
+}); //middleware
+
 
 app.get('/register', function (req, res) {
     res.render('register')
@@ -128,7 +136,7 @@ app.post('/createPost', isLoggedIn, function (req, res) {
 })
 
 
-app.get('/feed', isLoggedIn, function (req, res) {
+app.get('/feed', function (req, res) {
     Post.find().populate('author').
         populate('likes').
         populate({ path: 'comments', populate: [{ path: 'author' }, { path: 'likes' }, { path: 'innerComments', populate: [{ path: 'Fauthor' }, { path: 'Tauthor' }, { path: 'likes', populate: [{ path: 'comment' }, { path: 'authors', populate: 'users' }] }, { path: 'comment' }] }, { path: 'post' }] }).
@@ -138,7 +146,7 @@ app.get('/feed', isLoggedIn, function (req, res) {
                     console.log(comment.innerComments.likes)
                 })
             })
-            res.render('feed', { posts: posts, user: req.user })
+            res.render('feed', { posts: posts })
         })
 })
 
@@ -147,7 +155,7 @@ app.get('/:id/follows/:num', function (req, res) {
     var num = req.params.num;
     User.findById(userId).populate('followers.users following.users').exec(function (err, Tuser) {
         console.log('Tuser', Tuser)
-        res.render('followerAndFollowing', { curUser: req.user, user: Tuser, flag: num })
+        res.render('followerAndFollowing', { user: Tuser, flag: num })
     })
 })
 
@@ -235,22 +243,18 @@ app.post('/:id/increaseLike', function (req, res) {
 })
 
 app.post('/:id/commentLike', function (req, res) {
-    console.log('hey')
-    var curUser = req.user;
+    // var curUser = req.user;
     Comment.findById(req.params.id)
         .populate('likes').populate('author').
         exec(function (err, post) {
             var likesId = post.likes._id;
             CommentLike.findById(likesId).populate('authors').exec(function (err, like) {
-                console.log('LIKEEEEEEE', like)
-                //console.log('CUR  ',curUser._id)
                 var flag = true;
-                var curId = req.user._id;
+                // var curId = req.user._id;
                 for (var i = 0; i < like.authors.length; i++) {
                     var author = like.authors[i];
                     console.log('AUTHOR  ', author._id)
-                    //console.log(String(author._id) == String(curId))
-                    if (String(author._id) == String(curId)) {
+                    if (String(author._id) == String(currentUser.id)) {
                         flag = false;
                         like.number -= 1;
                         like.authors.splice(i, 1);
@@ -262,7 +266,7 @@ app.post('/:id/commentLike', function (req, res) {
                 }
                 if (flag) {
                     like.number += 1;
-                    like.authors.push(curUser)
+                    like.authors.push(currentUser)
                     like.save()
                     res.redirect('/feed')
                 }
@@ -271,7 +275,6 @@ app.post('/:id/commentLike', function (req, res) {
 })
 
 app.post('/:id/innerCommentLike', function (req, res) {
-    console.log('hey')
     var curUser = req.user;
     InnerComment.findById(req.params.id)
         .populate('likes').populate('author').

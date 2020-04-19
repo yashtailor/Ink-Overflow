@@ -1,57 +1,62 @@
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-<style>
-    a{
-        font-size: 20px;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+  <style>
+    a {
+      font-size: 20px;
     }
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
+
 <body style="background-color: crimson; text-align: center; color:white">
-    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" style="margin:10px;border-radius:8px">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">Menu</button>
-            <a class="navbar-brand" href="/">Ink Overflow</a>
-          </div>
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-              <li><a href="/feed">Feed</a></li>
-              <li><a href="/<%= curUser._id %>/profile">Profile</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="/register">Register</a></li>
-              <li><a href="/login">Login</a></li>
-              <li><a href="/logout">Logout</a></li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-      <div style="margin-top:100px; width: 150px; margin-left: 40%;">
-        <% if(flag=="1"){ %>
-            <h3 style="color: white; text-align: center;">Followers</h3>
-            <% user.followers.users.forEach(function(author){ %>
-                 <div style="border: 2px solid white; margin: 10px;">
-                    <a href="/<%= author._id %>/profile"><%= author.username %></a>
-                    <p>followers- <%= author.followers.number %></p>
-                    <p>following- <%= author.following.number %></p>
-                 </div>
-            <% }) %>
-          <% }else{ %>
-            <h3 style="color: white; text-align: center;">Following</h3>
-              <% user.following.users.forEach(function(author){ %>
-                <div style="border: 2px solid white; margin: 10px;">
-                    <a href="/<%= author._id %>/profile"><%= author.username %></a>
-                    <p>followers- <%= author.followers.number %></p>
-                    <p>following- <%= author.following.number %></p>
-                 </div>
-             <%  }) %>
-          <% } %>
+  <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" style="margin:10px;border-radius:8px">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+          data-target="#bs-example-navbar-collapse-1" aria-expanded="false">Menu</button>
+        <a class="navbar-brand" href="/">Ink Overflow</a>
       </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="/feed">Feed</a></li>
+          <li><a href="/<%= currentUser.id %>/profile">Profile</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/register">Register</a></li>
+          <li><a href="/login">Login</a></li>
+          <li><a href="/logout">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div style="margin-top:100px; width: 150px; margin-left: 40%;">
+    <% if(flag=="1"){ %>
+    <h3 style="color: white; text-align: center;">Followers</h3>
+    <% user.followers.users.forEach(function(author){ %>
+    <div style="border: 2px solid white; margin: 10px;">
+      <a href="/<%= author._id %>/profile"><%= author.username %></a>
+      <p>followers- <%= author.followers.number %></p>
+      <p>following- <%= author.following.number %></p>
+    </div>
+    <% }) %>
+    <% }else{ %>
+    <h3 style="color: white; text-align: center;">Following</h3>
+    <% user.following.users.forEach(function(author){ %>
+    <div style="border: 2px solid white; margin: 10px;">
+      <a href="/<%= author._id %>/profile"><%= author.username %></a>
+      <p>followers- <%= author.followers.number %></p>
+      <p>following- <%= author.following.number %></p>
+    </div>
+    <%  }) %>
+    <% } %>
+  </div>
 </body>
+
 </html>

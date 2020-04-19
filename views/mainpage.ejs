@@ -1,91 +1,43 @@
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-    <style>
-        a {
-            font-size: 20px;
-        }
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-</head>
-
-<body style="background-color: crimson; text-align: center; color:white">
-    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse"
-        style="margin:10px;border-radius:8px ;padding-bottom: 5px;">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">Menu</button>
-                <a class="navbar-brand" href="/">Ink Overflow<br>
-                    <span style="font-size: x-small;"><i>Never hesitate to write!</i></span></a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-collapse">
-                    <li><a href="/feed">Feed</a></li>
-                    <li><a href="/<%= user._id %>/profile">Profile</a></li>
-                    <li><a href="/notifs">Notifs</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right navbar-collapse">
-                    <li><a href="/register">Register</a></li>
-                    <li><a href="/login">Login</a></li>
-                    <li><a href="/logout">Logout</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div style="padding-top: 70px;">
-        <!-- <div class="jumbotron" style="margin: 20px; text-align: center; opacity: 0.5; border: 3px solid red; border-radius: 20px;">
-            <h1>MAIN PAGE</h1>
-            <form action="/getfeed" method="GET">
-                <button class="btn btn-info">FEED</button>
-            </form>
-        </div> -->
-        <a href="/<%= user._id %>/follows/1">followers - <%= user.followers.number %></a>&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="/<%= user._id %>/follows/0">following - <%= user.following.number %></a>
-        <% if(flag){ %>
-        <form action="/<%= user._id %>/addFollower" method="POST">
-            <button class="btn btn-success">Follow</button>
-        </form>
-        <% }%>
-        <% if(flag2){ %>
-        <div class="alert alert-success fade in" role="alert">
-            Hi !!! <%= user.username %>
-            Welcome ! To INK OVERFLOW
-        </div>
-        <% } %>
-        <% user.posts.forEach(function(post){ %>
-        <div class="container"
-            style="font-size: 20px; padding: 20px; margin: 20px; border: 3px solid black; background-color: lightgreen; border-radius: 20px">
-            <p><%= post.text %></p>
-            <p> - <%= post.author.username %></p>
-            <% if(post.author._id.equals(current)){ %>
-            <form action="/<%= post._id %>?_method=DELETE" method="POST">
-                <button class="btn btn-success">delete</button>
-            </form>
-            <form action="/<%= post._id %>/edit" method="GET">
-                <button class="btn btn-success">edit</button>
-            </form>
-
-            <% } %>
-
-        </div>
-        <% })%>
-        <% if(flag2){ %>
-        <a href="/createBlog"><button class="btn btn-info">Create new Pen</button></a>
-        <h3>CREATE POST:</h3>
-        <form action="/createPost" method="POST" style="color:black">
-            <textarea placeholder="text" style="width: 500px; height:200px" name="text" rows="5" cols="60">
-            </textarea><br><br>
-            <button type="submit" class="btn btn-primary">Create Post</button>
-        </form>
-        <% } %>
+<%- include("./partials/header") %>
+<div style="padding-top: 70px;">
+    <a href="/<%= user._id %>/follows/1">followers - <%= user.followers.number %></a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="/<%= user._id %>/follows/0">following - <%= user.following.number %></a>
+    <% if(flag){ %>
+    <form action="/<%= user._id %>/addFollower" method="POST">
+        <button class="btn btn-success">Follow</button>
+    </form>
+    <% }%>
+    <% if(flag2){ %>
+    <div class="alert alert-success fade in" role="alert">
+        Hi !!! <%= user.username %>
+        Welcome ! To INK OVERFLOW
     </div>
-</body>
+    <% } %>
+    <% user.posts.forEach(function(post){ %>
+    <div class="container"
+        style="font-size: 20px; padding: 20px; margin: 20px; border: 3px solid black; background-color: lightgreen; border-radius: 20px">
+        <p><%= post.text %></p>
+        <p> - <%= post.author.username %></p>
+        <% if(post.author._id.equals(current)){ %>
+        <form action="/<%= post._id %>?_method=DELETE" method="POST">
+            <button class="btn btn-success">delete</button>
+        </form>
+        <form action="/<%= post._id %>/edit" method="GET">
+            <button class="btn btn-success">edit</button>
+        </form>
 
-</html>
+        <% } %>
+
+    </div>
+    <% })%>
+    <% if(flag2){ %>
+    <a href="/createBlog"><button class="btn btn-info">Create new Pen</button></a>
+    <h3>CREATE POST:</h3>
+    <form action="/createPost" method="POST" style="color:black">
+        <textarea placeholder="text" style="width: 500px; height:200px" name="text" rows="5" cols="60">
+            </textarea><br><br>
+        <button type="submit" class="btn btn-primary">Create Post</button>
+    </form>
+    <% } %>
+</div>
+<%- include("./partials/footer") %>

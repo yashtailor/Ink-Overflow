@@ -1,3 +1,5 @@
+<%- include("./partials/header") %>
+
 <div class="container"
     style="font-size: 20px; padding: 20px; margin: 20px; border: 3px solid black; background-color: lightgreen; border-radius: 20px">
     <form action="/edit/<%= post._id %>?method=PUT" method="POST">
@@ -7,3 +9,5 @@
         </div>
         <button class="btn btn-success">edit</button>
     </form>
+
+    <%- include("./partials/footer") %>
