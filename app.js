@@ -58,7 +58,7 @@ app.post('/register', function (req, res) {
             res.render('/')
         } else {
             passport.authenticate('local')(req, res, function () {
-                res.redirect('/login')
+                res.redirect('/')
             })
         }
     })
@@ -206,7 +206,7 @@ app.post('/:id/addFollower', function (req, res) {
     }
 })
 
-app.post('/:id/increaseLike', function (req, res) {
+app.post('/:id/increaseLike', isLoggedIn, function (req, res) {
     console.log('hey')
     var curUser = req.user;
     Post.findById(req.params.id)

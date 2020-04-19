@@ -2,42 +2,44 @@ var mongoose = require('mongoose')
 var passportLocalMongoose = require('passport-local-mongoose')
 
 var UserSchema = new mongoose.Schema({
-    username:String,
-    password:String,
-    posts:[
+    username: String,
+    password: String,
+    email: String,
+    desc: String,
+    posts: [
         {
-            type:mongoose.Schema.Types.ObjectId, 
-            ref:'Post'
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Post'
         }
     ],
-    notifs:[
+    notifs: [
         {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'Notif'
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Notif'
         }
     ],
-    followers:{
-        number:{type:Number,default:0},
-        users:[
+    followers: {
+        number: { type: Number, default: 0 },
+        users: [
             {
-                type:mongoose.Schema.Types.ObjectId,
-                ref:'User'
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
             }
         ]
     },
-    following:{
-        number:{type:Number,default:0},
-        users:[
+    following: {
+        number: { type: Number, default: 0 },
+        users: [
             {
-                type:mongoose.Schema.Types.ObjectId,
-                ref:'User'
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
             }
         ]
     },
-    postsLiked:[
+    postsLiked: [
         {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'Post'
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Post'
         }
     ],
     // stories:[
@@ -60,6 +62,6 @@ var UserSchema = new mongoose.Schema({
 
 UserSchema.plugin(passportLocalMongoose)
 
-module.exports = mongoose.model('User',UserSchema)
+module.exports = mongoose.model('User', UserSchema)
 
 

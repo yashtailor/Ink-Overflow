@@ -1,41 +1,81 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        #page-container {
+            position: relative;
+            min-height: 100vh;
+        }
+
+        #content-wrap {
+            padding-bottom: 2.5rem;
+            /* Footer height */
+        }
+
+        #footer {
+            background-color: rgb(129, 118, 118);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 7.5rem;
+
+
+
+
+            /* Footer height */
+        }
+
+        .myfooter {
+            margin: auto;
+            width: 30%;
+            padding: 10px;
+        }
+    </style>
 </head>
 
-<body style="background-color: lightpink;">
-    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" style="margin:10px;border-radius:8px">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">Menu</button>
-                <a class="navbar-brand" href="/">Ink Overflow</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="/feed">Feed</a></li>
-                    <% if(currentUser){ %>
-                    <li><a href="/<%= currentUser.id %>/profile">Profile</a></li>
-                    <% } %>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <% if(currentUser){ %>
+<body>
 
-                    <li><a href="/logout">Logout</a></li>
-                    <% } else{ %>
 
-                    <li><a href="/register">Register</a></li>
-                    <li><a href="/login">Login</a></li>
-                    <% } %>
 
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <body>
+        <div id="page-container">
+            <div id="content-wrap">
+
+                <nav class="navbar navbar-inverse navbar-fixed-top">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="#">InkOverflow</a>
+                        </div>
+                        <ul class="nav navbar-nav">
+                            <li><a href="/feed">Feed</a></li>
+                            <% if(currentUser){ %>
+                            <li><a href="/<%= currentUser.id %>/profile">Profile</a></li>
+                            <% } %>
+                        </ul>
+                        <form class="navbar-form navbar-left" action="/">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search" name="search">
+                            </div>
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </form>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <% if(currentUser){ %>
+
+                            <li><a href="/logout">Logout</a></li>
+                            <% } else{ %>
+
+
+                            <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                            <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                            <% } %>
+                        </ul>
+                    </div>
+                </nav>

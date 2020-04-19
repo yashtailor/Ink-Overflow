@@ -7,7 +7,9 @@
         <p><%= post.text %></p>
         <a href="/<%= post.author._id %>/profile"> - <%= post.author.username %></a>
         <form action="/<%= post._id %>/increaseLike" method="POST">
-            <button class="btn btn-danger">Like</button>
+            <button>
+                <i class="glyphicon glyphicon-heart" style="color:red"> </i>
+            </button>
             <%= post.likes.number %>
         </form>
         <form action="/<%= post._id %>/addComment" method="POST">
@@ -25,7 +27,9 @@
             </p>
             <p>by - <a href="/<%= post.author._id %>/profile"><%= comment.author.username %></a></p>
             <form action="/<%= comment._id %>/commentLike" style="float: left;" method="POST">
-                <button class="btn btn-danger">like</button>
+                <button>
+                    <i class="glyphicon glyphicon-heart" style="color:red"> </i>
+                </button>
                 <%= comment.likes.number %>
             </form>
 
@@ -39,7 +43,10 @@
                 <p><%= innerC.text %></p>
                 <a href="<%= innerC.Fauthor._id %>/profile/">-<%= innerC.Fauthor.username %></a><br>
                 <form action="/<%= innerC._id %>/innerCommentLike" method="POST" style="float: left;">
-                    <button class="btn btn-danger">like</button><%= innerC.likes.number %>
+                    <button>
+                        <i class="glyphicon glyphicon-heart" style="color:red"> </i>
+                    </button>
+                    <%= innerC.likes.number %>
                 </form>
                 <form action="/<%= comment._id %>/<%= innerC.Fauthor._id %>/addInnerComment" method="POST">
                     <input type="text" placeholder="comment" name="comment_text">
