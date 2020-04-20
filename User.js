@@ -6,6 +6,10 @@ var UserSchema = new mongoose.Schema({
     password: String,
     email: String,
     desc: String,
+    reputation:{
+        type:Number,
+        default:0,
+    },
     posts: [
         {
             type: mongoose.Schema.Types.ObjectId,

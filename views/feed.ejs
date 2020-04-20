@@ -25,7 +25,7 @@
                 &nbsp; &nbsp;
                 <%= comment.text %>
             </p>
-            <p>by - <a href="/<%= post.author._id %>/profile"><%= comment.author.username %></a></p>
+            <p>by - <a href="/<%= comment.author._id %>/profile"><%= comment.author.username %></a></p>
             <form action="/<%= comment._id %>/commentLike" style="float: left;" method="POST">
                 <button>
                     <i class="glyphicon glyphicon-heart" style="color:red"> </i>
@@ -59,4 +59,6 @@
     </div>
     <% })%>
 </div>
-<%- include("./partials/footer") %>
+<% if(flag){ %>
+    <script>alert('You must a have a reputation greater than 10 inks for upvoting')</script>
+<% } %>

@@ -2,6 +2,7 @@
 <div style="padding-top: 70px;">
     <a href="/<%= user._id %>/follows/1">followers - <%= user.followers.number %></a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="/<%= user._id %>/follows/0">following - <%= user.following.number %></a>
+    <p>Reputation: <%= user.reputation %></p>
     <% if(flag){ %>
     <form action="/<%= user._id %>/addFollower" method="POST">
         <button class="btn btn-success">Follow</button>
@@ -32,12 +33,5 @@
     <% })%>
     <% if(flag2){ %>
     <a href="/createBlog"><button class="btn btn-info">Create new Pen</button></a>
-    <h3>CREATE POST:</h3>
-    <form action="/createPost" method="POST" style="color:black">
-        <textarea placeholder="text" style="width: 500px; height:200px" name="text" rows="5" cols="60">
-            </textarea><br><br>
-        <button type="submit" class="btn btn-primary">Create Post</button>
-    </form>
     <% } %>
 </div>
-<%- include("./partials/footer") %>
