@@ -463,7 +463,7 @@ app.post('/:id/addComment', function (req, res) {
                     curUser.save();
                     //console.log('notif1',notif1);
                 })
-                if(postuser != curUser){
+                if(postuser._id != curUser._id){
                     Notif.create({
                         text:curUser.username + ' has commented on your post -'+comment.text,
                         author:postuser,
