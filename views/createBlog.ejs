@@ -2,47 +2,48 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <style>
   #textarea {
-  width: 90%;
-  height: 700px;
-  border: 3px solid blue;
-  margin: auto;
-  text-align: left;
-  background-color: white;
-}
+    width: 90%;
+    height: 700px;
+    border: 3px solid blue;
+    margin: auto;
+    text-align: left;
+    background-color: white;
+  }
 
-button {
-  font-weight: bold;
-}
-body{
-  text-align: center;
-  margin: 10px;
-  background-color: darkcyan;
-}
+  button {
+    font-weight: bold;
+  }
+
+  body {
+    text-align: center;
+    margin: 10px;
+    background-color: darkcyan;
+  }
 </style>
 <div style="border: 3px solid blue; width:90%; margin-top:80px; margin-left: 70px;">
-  <span style="font-size: 20px; color:white">Pallete :</span> 
-<button id="jBold"><b>B</b></button>
-<button id="jItalicize"><i>i</i></button>
-<button id="jUnderline"><u>U</u></button>
-<button id="jSubscript">x<sub>y</sub></button>
-<button id="jSuperscript">x<sup>y</sup></button>
-<button id="jStrikethrough" style="text-decoration: line-through;">cancel</button>
-<button id="jfontsize1"><b>H1</b></button>
-<button id="jfontsize2"><b>H2</b></button>
-<button id="jfontsize3"><b>H3</b></button>
-<button id="jfontsize4"><b>H4</b></button>
-<button id="jfontsize5"><b>H5</b></button>
-<button id="jfontsize6"><b>H6</b></button>
-<button id="jfontsize7"><b>H7</b></button>
-<button id="jcolorRed"><b>Red</b></button>
-<button id="jcolorGreen"><b>Green</b></button>
-<button id="jcolorBlue"><b>Blue</b></button>
-<button id="jcolorBlack"><b>Black</b></button>
-<button id="jfontHelvetica"><b>Helvetica</b></button>
-<button id="jfontArial"><b>Arial</b></button>
-<button id="jfontVerdana"><b>Verdana</b></button>
-<button id="jfontSans"><b>Sans-serif</b></button>
-<button style="background-color: blue; color: white;">SUBMIT</button>
+  <span style="font-size: 20px; color:white">Pallete :</span>
+  <button id="jBold"><b>B</b></button>
+  <button id="jItalicize"><i>i</i></button>
+  <button id="jUnderline"><u>U</u></button>
+  <button id="jSubscript">x<sub>y</sub></button>
+  <button id="jSuperscript">x<sup>y</sup></button>
+  <button id="jStrikethrough" style="text-decoration: line-through;">cancel</button>
+  <button id="jfontsize1"><b>H1</b></button>
+  <button id="jfontsize2"><b>H2</b></button>
+  <button id="jfontsize3"><b>H3</b></button>
+  <button id="jfontsize4"><b>H4</b></button>
+  <button id="jfontsize5"><b>H5</b></button>
+  <button id="jfontsize6"><b>H6</b></button>
+  <button id="jfontsize7"><b>H7</b></button>
+  <button id="jcolorRed"><b>Red</b></button>
+  <button id="jcolorGreen"><b>Green</b></button>
+  <button id="jcolorBlue"><b>Blue</b></button>
+  <button id="jcolorBlack"><b>Black</b></button>
+  <button id="jfontHelvetica"><b>Helvetica</b></button>
+  <button id="jfontArial"><b>Arial</b></button>
+  <button id="jfontVerdana"><b>Verdana</b></button>
+  <button id="jfontSans"><b>Sans-serif</b></button>
+  <!-- <button style="background-color: blue; color: white;">SUBMIT</button>-->
 </div>
 
 <form action="/createPost" method="POST">
@@ -117,7 +118,10 @@ body{
     </script>
     
   </div> -->
+  <input type="text" placeholder="add a genre" name="tag"></input>
   <textarea name="text" id="textarea" cols="100" rows="200"></textarea>
-  <button style="background-color: blue; color: white; margin-top: 10px; width: 100px; height:50px; border: 2px solid blueviolet;">SUBMIT</button>
+  <button
+    style="background-color: blue; color: white; margin-top: 10px; width: 100px; height:50px; border: 2px solid blueviolet;">SUBMIT</button>
 </form>
 
+<%- include("./partials/footer") %>

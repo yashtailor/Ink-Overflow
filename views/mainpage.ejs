@@ -1,4 +1,39 @@
 <%- include("./partials/header") %>
+<style>
+    .button {
+        border: none;
+        color: white;
+        padding: 3px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 2px 2px;
+        cursor: pointer;
+    }
+
+    #outer {
+        width: 180%;
+        text-align: center;
+    }
+
+    .inner {
+        display: inline-block;
+    }
+
+
+    .button4 {
+        background-color: #e7e7e7;
+        color: black;
+    }
+
+    .button5 {
+        background-color: #555555;
+    }
+
+    /* Black */
+</style>
+
 <div style="padding-top: 70px;">
     <a href="/<%= user._id %>/follows/1">followers - <%= user.followers.number %></a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="/<%= user._id %>/follows/0">following - <%= user.following.number %></a>
@@ -19,13 +54,20 @@
         style="font-size: 20px; padding: 20px; margin: 20px; border: 3px solid black; background-color: lightgreen; border-radius: 20px">
         <p><%= post.text %></p>
         <p> - <%= post.author.username %></p>
-        <% if(post.author._id.equals(current)){ %>
-        <form action="/<%= post._id %>?_method=DELETE" method="POST">
-            <button class="btn btn-success">delete</button>
-        </form>
-        <form action="/<%= post._id %>/edit" method="GET">
-            <button class="btn btn-success">edit</button>
-        </form>
+        <button class="button button5"><%= post.tag %></button>
+        <div id="outer">
+            <% if(post.author._id.equals(current)){ %>
+            <div class="inner">
+                <form action="/<%= post._id %>?_method=DELETE" method="POST">
+                    <button class="button button4">delete</button>
+                </form>
+            </div>
+            <div class="inner">
+                <form action="/<%= post._id %>/edit" method="GET">
+                    <button class="button button4">edit</button>
+                </form>
+            </div>
+        </div>
 
         <% } %>
 
@@ -35,3 +77,4 @@
     <a href="/createBlog"><button class="btn btn-info">Create new Pen</button></a>
     <% } %>
 </div>
+<%- include("./partials/footer") %>

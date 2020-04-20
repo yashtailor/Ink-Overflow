@@ -1,13 +1,14 @@
 <%- include("./partials/header") %>
 <style>
-    .notifdiv{
-     background-color: aqua;
-     margin: 10px;
-     border:2px solid blue;   
-     font-size: 20px;
-     padding: 10px;
+    .notifdiv {
+        background-color: aqua;
+        margin: 10px;
+        border: 2px solid blue;
+        font-size: 20px;
+        padding: 10px;
     }
 </style>
+
 <body>
     <div style="margin-top: 80px;">
         <h1 style="text-align: center;">NOTIFICATIONS:</h1>
@@ -15,11 +16,10 @@
             <button class="btn btn-danger">CLEAR NOTIFS</button>
         </form>
         <% notifs.forEach(function(notif){ %>
-            <div class="notifdiv">
-                <p><%= notif.text %><p>
-                <p><%= notif.time %></p>
-            </div>
+        <div class="notifdiv">
+            <p><%= notif.text %><p>
+                    <p><%= notif.time %></p>
+        </div>
         <% })%>
     </div>
-</body>
-</html>
+    <%- include("./partials/footer") %>
