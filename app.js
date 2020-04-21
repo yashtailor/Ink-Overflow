@@ -11,8 +11,8 @@ var express = require('express'),
     passport = require('passport'),
     passportLocal = require('passport-local'),
     passportLocalMongoose = require('passport-local-mongoose'),
-    request = require('request')
-
+    request = require('request');
+var flash = require("connect-flash");
 var app = express()
 mongoose.connect('mongodb://localhost/ink_overflow')
 // var MONGO_STRING = 'mongodb+srv://yash:yash@cluster0-jyzyx.mongodb.net/test?retryWrites=true&w=majority'
@@ -37,11 +37,11 @@ app.use(passport.session())
 passport.use('local', new passportLocal(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
-
+app.use(flash());
 app.use(function (req, res, next) {
     res.locals.currentUser = req.user;
-    // res.locals.error = req.flash("error");
-    //res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
 
     next();
 }); //middleware
@@ -96,7 +96,9 @@ app.get('/loginDirect', function (req, res) {
 
 app.get('/logout', function (req, res) {
     req.logout()
-    res.redirect('/')
+    console.log("coming here");
+    req.flash("success", "Logged you out");
+    res.redirect('/feed')
 })
 
 
@@ -115,19 +117,21 @@ app.get('/logout', function (req, res) {
 //     })
 
 // })
-app.post('/user/clrNotifs',function(req,res){
+app.post('/user/clrNotifs', function (req, res) {
     var curUser = req.user;
     console.log('======REMOVED NOTIFS=======');
-    Notif.find({author:curUser}).remove().exec(function(err,removedNotif){
+    Notif.find({ author: curUser }).remove().exec(function (err, removedNotif) {
         console.log(removedNotif);
     })
-    res.redirect('/'+curUser._id+'/profile');
+    res.redirect('/' + curUser._id + '/profile');
 })
 
 app.get('/', function (req, res) {
     res.redirect('/feed')
 })
 app.post('/search', function (req, res) {
+
+
     var flag = false;
     tag = req.body.search;
     console.log("================")
@@ -148,12 +152,20 @@ app.post('/search', function (req, res) {
 
 app.post('/createPost', isLoggedIn, function (req, res) {
     text = req.body.text
-    tag = req.body.tag
+    tageg = req.body.myInputs
+    //   var myarray = tageg.split(',');
+    /* var finalarray = []
+     for (var i = 0; i < myarray.length; i++) {
+         finalarray.push(myarray[i]);
+         console.log(myarray[i]);
+     }*/
+    console.log(tageg);
+
     User.findById({ _id: req.user._id }, function (err, user) {
         Post.create({
             text: text,
             author: user,
-            tag: tag,
+            tag: tageg,
         }, function (err, post) {
             if (err) {
                 console.log(err)
@@ -336,7 +348,7 @@ app.post('/:id/increaseLike', isLoggedIn, function (req, res) {
     }
 })
 
-app.post('/:id/commentLike', function (req, res) {
+app.post('/:id/commentLike', isLoggedIn, function (req, res) {
     var currentUser = req.user;
     var curUser = req.user;
     if (curUser.reputation >= 11) {
@@ -399,7 +411,7 @@ app.post('/:id/commentLike', function (req, res) {
     }
 })
 
-app.post('/:id/innerCommentLike', function (req, res) {
+app.post('/:id/innerCommentLike', isLoggedIn, function (req, res) {
     var curUser = req.user;
     var currentUser = req.user;
     if (curUser.reputation >= 11) {
@@ -465,7 +477,7 @@ app.post('/:id/innerCommentLike', function (req, res) {
     }
 })
 
-app.post('/:id/addComment', function (req, res) {
+app.post('/:id/addComment', isLoggedIn, function (req, res) {
     var curUser = req.user;
     var postId = req.params.id;
     Post.findById(postId).populate({ path: 'author', populate: { path: 'notifs' } }).exec(function (err, post) {
@@ -515,7 +527,7 @@ app.post('/:id/addComment', function (req, res) {
 
 
 
-app.post('/:cid/:aid/addInnerComment', function (req, res) {
+app.post('/:cid/:aid/addInnerComment', isLoggedIn, function (req, res) {
     var curUserReq;
     var tauthor;
     User.findById(req.user._id, function (err, curUser) {
@@ -581,7 +593,7 @@ app.post("/:id", function (req, res) {
     });
 });
 
-app.get('/createBlog', function (req, res) {
+app.get('/createBlog', isLoggedIn, function (req, res) {
     res.render('createBlog', { user: req.user })
 })
 app.get("/:id/edit", function (req, res) {
@@ -602,7 +614,7 @@ app.post("/edit/:id", function (req, res) {
     });
 });
 
-app.get('/:id/notifs', function (req, res) {
+app.get('/:id/notifs', isLoggedIn, function (req, res) {
     var userid = req.params.id;
     User.findById(userid).populate('notifs').exec(function (err, user) {
         // console.log('err',err)
@@ -648,6 +660,8 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     } else {
+        req.flash("error", "Please log in first");
+
         res.redirect('/login')
     }
 }

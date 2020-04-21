@@ -34,7 +34,7 @@
     /* Black */
 </style>
 
-<div style="padding-top: 70px;">
+<div>
     <a href="/<%= user._id %>/follows/1">followers - <%= user.followers.number %></a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="/<%= user._id %>/follows/0">following - <%= user.following.number %></a>
     <p>Reputation: <%= user.reputation %></p>
@@ -43,18 +43,14 @@
         <button class="btn btn-success">Follow</button>
     </form>
     <% }%>
-    <% if(flag2){ %>
-    <div class="alert alert-success fade in" role="alert">
-        Hi !!! <%= user.username %>
-        Welcome ! To INK OVERFLOW
-    </div>
-    <% } %>
     <% user.posts.forEach(function(post){ %>
     <div class="container"
         style="font-size: 20px; padding: 20px; margin: 20px; border: 3px solid black; background-color: lightgreen; border-radius: 20px">
         <p><%- post.text %> </p>
         <p> - <%= post.author.username %></p>
-        <button class="button button5"><%= post.tag %></button>
+        <% post.tag.forEach(function(tag){%>
+        <button class="button button5"><%= tag %></button>
+        <% }) %>
         <div id="outer">
             <% if(post.author._id.equals(current)){ %>
             <div class="inner">

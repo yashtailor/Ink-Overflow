@@ -2,8 +2,7 @@ var mongoose = require('mongoose')
 
 var postSchema = new mongoose.Schema({
     text: String,
-    tag: String,
-
+    tag: { type: Array, "default": [] },
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

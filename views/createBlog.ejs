@@ -1,34 +1,64 @@
 <%- include("./partials/header") %>
 <html>
+
 <head>
-  <script src="https://cdn.tiny.cloud/1/ck34jpz332i3gk4dysyfxsru58yges66h6kj44w4qv7nann8/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+  <script src="https://cdn.tiny.cloud/1/ck34jpz332i3gk4dysyfxsru58yges66h6kj44w4qv7nann8/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script>
+  <style>
+    .inner {
+      padding: 100px;
+      margin: auto;
+    }
+  </style>
 </head>
-<body style="margin-top: 100px; margin-left: 20px; margin-right: 20px;">
-  <form action="/createPost" method="POST">
-  <textarea rows="50" name="text">
+
+<body>
+  <div class="inner">
+    <form action="/createPost" method="POST">
+      <textarea rows="50" name="text">
     Pen here
   </textarea>
-  <script>
-    tinymce.init({
-      selector: 'textarea',
-      plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-      toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
-      toolbar_mode: 'floating',
-      tinycomments_mode: 'embedded',
-      tinycomments_author: 'Yash Tailor'
-    });
-  </script>
-  <input type="text" name="tag" id="tag" placeholder="tag">
-  <button style="background-color: blue; color: white; margin-top: 10px; width: 100px; height:50px; border: 2px solid blueviolet;">SUBMIT</button>
-  </form>
+      <script>
+        tinymce.init({
+          selector: 'textarea',
+          plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+          toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+          toolbar_mode: 'floating',
+          tinycomments_mode: 'embedded',
+          tinycomments_author: 'Yash Tailor'
+        });
+      </script>
+
+      <script src="/wp-includes/js/addInput.js" language="Javascript" type="text/javascript"></script>
+      <div id="dynamicInput">
+        Tags<br> <small>Note: One or more tags should be added.You can add maximum 5 tags!</small>
+        <br><input type="text" name="myInputs[]" placeholder="add the tag">
+      </div>
+      <input type="button" value="Add another text input" onClick="addInput('dynamicInput');">
+      <script>
+        var counter = 1;
+        var limit = 5;
+        function addInput(divName) {
+
+          if (counter == limit) {
+            alert("You have reached the limit of adding " + counter + " inputs");
+          }
+          else {
+            var newdiv = document.createElement('div');
+            newdiv.innerHTML = "Tag" + (counter + 1) + " <br><input type='text' name='myInputs[]' placeholder='add the tag' required>";
+            document.getElementById(divName).appendChild(newdiv);
+            counter++;
+          }
+        }
+
+      </script>
+      <br>
+      <button
+        style="background-color: blue; color: white; margin-top: 10px; width: 100px; height:50px; border: 2px solid blueviolet;">SUBMIT</button>
+    </form>
+  </div>
 </body>
+
 </html>
 <%- include("./partials/footer") %>
-
-
-
-  
-
-
-
-
