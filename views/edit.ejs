@@ -1,15 +1,24 @@
 <%- include("./partials/header") %>
-<br>
-<br>
-<br>
-<div class="container"
-    style="font-size: 20px; padding: 20px; margin: 20px; border: 3px solid black; background-color: lightgreen; border-radius: 20px">
+<head>
+    <script src="https://cdn.tiny.cloud/1/ck34jpz332i3gk4dysyfxsru58yges66h6kj44w4qv7nann8/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+</head>
+<body style="margin-top: 100px; margin-left: 20px; margin-right: 20px;">
     <form action="/edit/<%= post._id %>?method=PUT" method="POST">
+        <textarea rows="50" name="post[text]">
+          <%= post.text %>
+        </textarea>
+        <script>
+          tinymce.init({
+            selector: 'textarea',
+            plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+            toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+            toolbar_mode: 'floating',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Yash Tailor'
+          });
+        </script>
+      <button class="btn btn-success">edit</button>
+  </form>
+</body>
 
-        <div class="form-group">
-            <input class="form-control" type="text" name="post[text]" value="<%= post.text %>">
-        </div>
-        <button class="btn btn-success">edit</button>
-    </form>
-</div>
 <%- include("./partials/footer") %>
