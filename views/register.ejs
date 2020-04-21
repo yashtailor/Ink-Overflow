@@ -1,44 +1,55 @@
 <%- include("./partials/header") %>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 <style>
     input,
     button {
         padding: 10px;
         margin: 20px;
-        width: 500px;
-        border-radius: 20px;
-        border: 3px solid black;
+        width: 400px;
+        border-radius: 10px;
         text-align: center;
+        border: 1px solid black;
+    }
+    button{
+        background-color: rgb(61, 21, 6);
+        color:white;
     }
 
     .container {
-        width: 600px;
-        border: 2px solid black;
+        width: 500px;
+        border: 5px solid white;
         padding: 20px;
         border-radius: 20px;
+        margin-left: 20%;
+        box-shadow: 10px 10px 10px 10px black;
     }
 
     body {
-        background-color: white;
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-        font-size: 15px;
+        background-image:url('https://grademiners.com/wp-content/uploads/2017/09/image001-1.jpg');
+        opacity: 0.7;
+        background-size: cover;
+        background-repeat: no-repeat;
+        font-family: 'Pacifico', cursive;
+        font-size: 20px;
 
     }
 
 
     h3 {
         text-align: center;
-        font-size: 40px;
-        color: black;
+        font-size: 50px;
+        color: rgb(255, 222, 92);
+        text-shadow: 3px 3px black;
         margin-bottom: 10px;
     }
 </style>
-<div class="container" style="margin-left: 25%; margin-top: 10%;">
+<div class="container" style="margin-left: 30%; margin-top: 6%;">
     <form action="/register" method="POST" class="form form-group">
-        <h3>REGISTER</h3>
+        <h3>Register</h3>
         <input type="text" placeholder="username" name="username" required><br>
         <input type="password" placeholder="password" name="password" required><br>
-        <button type="submit" class="btn btn-primary"
-            style="border-radius: 20px; height: 40px; box-shadow: 5px 5px black; font-size: 15px;">Submit</button>
+        <button type="submit" 
+            style="border-radius: 10px;">Submit</button>
     </form>
 </div>
 <%- include("./partials/footer") %>

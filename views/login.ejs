@@ -1,44 +1,56 @@
 <%- include("./partials/header") %>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 <style>
     input,
     button {
         padding: 10px;
         margin: 20px;
-        width: 500px;
-        border-radius: 20px;
-        border: 3px solid black;
+        width: 400px;
+        border-radius: 10px;
         text-align: center;
+        border: 1px solid black;
+    }
+    button{
+        background-color: rgb(61, 21, 6);
+        color:white;
     }
 
     .container {
-        width: 600px;
-        border: 2px solid black;
+        width: 500px;
+        border: 5px solid rgb(61, 21, 6);
+        padding: 20px;
         border-radius: 20px;
+        margin-left: 20%;
+        box-shadow: 10px 10px 10px 10px black;
     }
 
     body {
-        background-color: white;
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-        font-size: 15px;
+        background-image:url('https://lh3.googleusercontent.com/proxy/lLokn8QwngIcv34K1yhoLrQE8wchvL6Pr6Mfgt-t0VUffzjV4afDOAG6b022Ce7gT6SuT9HnxbNw5ES_OyslIJuOXgqBGmD325OogRXz');
+        opacity: 0.7;
+        background-size: cover;
+        background-repeat: no-repeat;
+        font-family: 'Pacifico', cursive;
+        font-size: 20px;
 
     }
 
     h3 {
         text-align: center;
-        font-size: 40px;
-        color: black;
+        font-size: 50px;
+        color: rgb(61, 21, 6);
+        
         margin-bottom: 10px;
     }
-</style>
+    </style>
 
-<div class="container" style="margin-left: 25%; margin-top: 10%;">
+<div class="container" style="margin-left: 30%; margin-top: 6%;">
     <form action="/login" method="POST" class="form form-group">
-        <h3>LOGIN</h3>
+        <h3>Login</h3>
         <input type="text" placeholder="username" name="username"><br>
         <input type="password" placeholder="password" name="password"><br>
-        <button type="submit" class="btn btn-primary"
-            style="border-radius: 20px; height: 40px; box-shadow: 5px 5px black; font-size: 15px;">Submit</button>
+        <button type="submit" 
+            style="border-radius: 10px;">Submit</button>
     </form>
-    <a href="/register" style="text-align:center; color:lightpink">Don't have an account? Click here</a>
+    <a href="/register" style="text-align:center; color:rgb(61, 21, 6)">Don't have an account? Click here</a>
 </div>
 <%- include("./partials/footer") %>

@@ -24,7 +24,6 @@ mongoose.connect('mongodb://localhost/ink_overflow')
 //     // useUnifiedTopology: true,
 // });
 
-
 app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(require('express-session')({
@@ -46,6 +45,24 @@ app.use(function (req, res, next) {
     next();
 }); //middleware
 
+app.get('/', function (req, res) {
+    res.redirect('/feed')
+})
+
+app.get('/feed', function (req, res) {
+    var flag = false;
+    Post.find().populate('author').
+        populate('likes').
+        populate({ path: 'comments', populate: [{ path: 'author' }, { path: 'likes' }, { path: 'innerComments', populate: [{ path: 'Fauthor' }, { path: 'Tauthor' }, { path: 'likes', populate: [{ path: 'comment' }, { path: 'authors', populate: 'users' }] }, { path: 'comment' }] }, { path: 'post' }] }).
+        sort({ _id: -1 }).exec(function (err, posts) {
+            posts.forEach(function (post) {
+                post.comments.forEach(function (comment) {
+                    // console.log(comment.innerComments.likes)
+                })
+            })
+            res.render('feed', { posts: posts, flag: flag })
+        })
+})
 
 app.get('/register', function (req, res) {
     res.render('register')
@@ -56,7 +73,7 @@ app.post('/register', function (req, res) {
         User.register(new User({ username: req.body.username, reputation: 11 }), req.body.password, function (err, user) {
             if (err) {
                 console.log(err)
-                res.render('/')
+                res.redirect('/')
             } else {
                 passport.authenticate('local')(req, res, function () {
                     res.redirect('/')
@@ -67,7 +84,7 @@ app.post('/register', function (req, res) {
         User.register(new User({ username: req.body.username }), req.body.password, function (err, user) {
             if (err) {
                 console.log(err)
-                res.render('/')
+                res.redirect('/')
             } else {
                 passport.authenticate('local')(req, res, function () {
                     res.redirect('/')
@@ -126,9 +143,7 @@ app.post('/user/clrNotifs', function (req, res) {
     res.redirect('/' + curUser._id + '/profile');
 })
 
-app.get('/', function (req, res) {
-    res.redirect('/feed')
-})
+
 app.post('/search', function (req, res) {
 
 
@@ -187,22 +202,6 @@ app.post('/createPost', isLoggedIn, function (req, res) {
         })
     })
 
-})
-
-
-app.get('/feed', function (req, res) {
-    var flag = false;
-    Post.find().populate('author').
-        populate('likes').
-        populate({ path: 'comments', populate: [{ path: 'author' }, { path: 'likes' }, { path: 'innerComments', populate: [{ path: 'Fauthor' }, { path: 'Tauthor' }, { path: 'likes', populate: [{ path: 'comment' }, { path: 'authors', populate: 'users' }] }, { path: 'comment' }] }, { path: 'post' }] }).
-        sort({ _id: -1 }).exec(function (err, posts) {
-            posts.forEach(function (post) {
-                post.comments.forEach(function (comment) {
-                    // console.log(comment.innerComments.likes)
-                })
-            })
-            res.render('feed', { posts: posts, flag: flag })
-        })
 })
 
 app.get('/:id/follows/:num', function (req, res) {
