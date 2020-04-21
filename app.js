@@ -115,6 +115,14 @@ app.get('/logout', function (req, res) {
 //     })
 
 // })
+app.post('/user/clrNotifs',function(req,res){
+    var curUser = req.user;
+    console.log('======REMOVED NOTIFS=======');
+    Notif.find({author:curUser}).remove().exec(function(err,removedNotif){
+        console.log(removedNotif);
+    })
+    res.redirect('/'+curUser._id+'/profile');
+})
 
 app.get('/', function (req, res) {
     res.redirect('/feed')
@@ -306,7 +314,7 @@ app.post('/:id/increaseLike', isLoggedIn, function (req, res) {
                                 curUser.save();
                                 //console.log('notif1',notif1);
                             })
-                            if (puser != curUser) {
+                            if (String(puser._id) != String(curUser._id)) {
                                 Notif.create({
                                     text: curUser.username + ' has liked your comment -' + post.text,
                                     author: postUser,
@@ -369,7 +377,7 @@ app.post('/:id/commentLike', function (req, res) {
                                 curUser.save();
                                 //console.log('notif1',notif1);
                             })
-                            if (puser != curUser) {
+                            if (String(puser._id) != String(curUser._id)) {
                                 Notif.create({
                                     text: curUser.username + ' has liked your comment -' + post.text,
                                     author: postUser,
@@ -435,7 +443,7 @@ app.post('/:id/innerCommentLike', function (req, res) {
                                 curUser.save();
                                 //console.log('notif1',notif1);
                             })
-                            if (puser != curUser) {
+                            if (String(puser._id) != String(curUser._id)) {
                                 Notif.create({
                                     text: curUser.username + ' has liked your comment -' + post.text,
                                     author: postUser,
@@ -483,7 +491,7 @@ app.post('/:id/addComment', function (req, res) {
                     curUser.save();
                     //console.log('notif1',notif1);
                 })
-                if (postuser != curUser) {
+                if (String(postuser._id) != String(curUser._id)) {
                     Notif.create({
                         text: curUser.username + ' has commented on your post -' + comment.text,
                         author: postuser,
@@ -540,7 +548,7 @@ app.post('/:cid/:aid/addInnerComment', function (req, res) {
                     curUserReq.save();
                     //console.log('notif1',notif1);
                 })
-                if (tauthor != curUserReq) {
+                if (String(tauthor._id) != String(curUserReq._id)) {
                     Notif.create({
                         text: curUserReq.username + ' has replied to your comment -' + Innercomment.text,
                         author: tauthor,
@@ -572,7 +580,6 @@ app.post("/:id", function (req, res) {
         }
     });
 });
-
 
 app.get('/createBlog', function (req, res) {
     res.render('createBlog', { user: req.user })
@@ -631,7 +638,7 @@ app.get('/decideUser', function (req, res) {
         })
 })
 
-app.listen(process.env.PORT || 5000, function () {
+app.listen(process.env.PORT || 3000, function () {
     console.log('server is running ....')
 })
 

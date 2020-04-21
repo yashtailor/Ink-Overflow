@@ -12,13 +12,13 @@
 <body>
     <div style="margin-top: 80px;">
         <h1 style="text-align: center;">NOTIFICATIONS:</h1>
-        <form action="/:id/clearNotifs" method="POST">
+        <form action="/user/clrNotifs" method="POST">
             <button class="btn btn-danger">CLEAR NOTIFS</button>
         </form>
         <% notifs.forEach(function(notif){ %>
         <div class="notifdiv">
             <p><%= notif.text %><p>
-                    <p><%= notif.time %></p>
+            <p><%= notif.time %></p>
         </div>
         <% })%>
     </div>
