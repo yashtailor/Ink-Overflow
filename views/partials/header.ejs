@@ -4,6 +4,9 @@
 <head>
     <title>InkOverflow</title>
     <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@577&display=swap" rel="stylesheet"
+        rel="stylesheet">
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -16,6 +19,12 @@
 
         .navbar {
             background-color: #25383C;
+        }
+
+        .iner {
+            margin: auto;
+            width: 30%;
+            height: 50px;
         }
 
         #content-wrap {
@@ -90,20 +99,21 @@
                 <br>
 
 
+
                 <% if(error && error.length>0) { %>
-                <div class="alert alert-danger" role="alert">
-                    <strong><%= error %></strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                <div class="iner">
+                    <div class="alert alert-danger">
+                        <%= error %>
+
+                    </div>
+
                 </div>
                 <% } %>
                 <% if(success && success.length>0) { %>
+                <div class="iner">
 
-                <div class="alert alert-success" role="alert">
-                    <strong><%= success %></strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <div class="alert alert-success" role="alert">
+                        <strong><%= success %></strong>
+                    </div>
                 </div>
                 <% } %>

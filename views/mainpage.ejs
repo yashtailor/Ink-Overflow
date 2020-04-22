@@ -1,5 +1,35 @@
 <%- include("./partials/headerprofile") %>
-</head>
+<style>
+    .button {
+        border: none;
+        color: white;
+        padding: 3px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 8px;
+        margin: 2px 2px;
+        cursor: pointer;
+    }
+
+    #outer {
+        width: 180%;
+        text-align: center;
+    }
+
+    .inner {
+        display: inline-block;
+    }
+
+    .button4 {
+        background-color: #e7e7e7;
+        color: black;
+    }
+
+    .button5 {
+        background-color: #555555;
+    }
+</style>
 <div class="container bootstrap snippet">
     <div class="row">
         <!-- BEGIN USER PROFILE -->
@@ -11,12 +41,12 @@
                     </div>
                     <div class="col-xs-7">
                         <h3><%= user.username %></h3>
-                        <p>@bootdey</p>
-                        <p>Website Developer, Programmer</p>
-                        <p>Bootdey City, NY, USA</p>
+                        <p><%= user.email %></p>
+                        <p><%= user.desc %></p>
                     </div>
                     <div class="col-xs-3 text-right">
-                        <p><a href="" title="Everyone can see your profile"><i class="fa fa-globe"></i> Everyone</a></p>
+                        <p><a href="" title="Everyone can see your profile"><i class="fa fa-globe"></i> Everyone</a>
+                        </p>
                     </div>
                 </div>
                 <div class="grid-body">
@@ -33,10 +63,12 @@
                                 <a href="/<%= user._id %>/follows/1">
                                     <h1><%= user.followers.number %></h1>
                                     <span>Followes</span>
-                                    <button class="btn btn-success"><i class="fa fa-plus-circle"></i> Follow</button>
+                                    <button class="btn btn-success"><i class="fa fa-plus-circle"></i>
+                                        Follow</button>
                             </div>
                             <div class="col-sm-4 stats">
-                                <a href="/<%= user._id %>/follows/0">following <h1><%= user.following.number %></h1>
+                                <a href="/<%= user._id %>/follows/0">
+                                    <h1><%= user.following.number %></h1>
                                     <span>Following</span>
                                     <button class="btn btn-info"><i class="fa fa-user"></i> View Profile</button>
                             </div>
@@ -54,47 +86,49 @@
                         </div>
 
                     </div>
+                    <% user.posts.forEach(function(post){ %>
+                    <br>
+                    <br>
+                    <div class="card" style=" border: solid black ">
+                        <div class="card-header">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <% post.tag.forEach(function(tag){%>
+                                <button class="button button5"><%= tag %></button>
+                                <% }) %>
+                            </h5>
+                            <p class="card-text"><%- post.text %></p>
+                            <div class="outer">
+
+                                <% if(post.author._id.equals(current)){ %>
+                                <div class="inner">
+
+                                    <form action="/del/<%= post.author._id %>/<%= post._id %>?_method=DELETE"
+                                        method="POST">
+                                        <button class="button button4">delete</button>
+                                    </form>
+                                </div>
+                                <div class="inner">
+
+
+                                    <form action="/<%= post._id %>/edit" method="GET">
+                                        <button class="button button4">edit</button>
+                                    </form>
+                                    <% } %>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <% })%>
+
 
                 </div>
             </div>
 
         </div>
     </div>
-</div>
-<div class="card">
-    <div class="card-header">
-        Featured
-    </div>
-    <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
-</div>
-<% user.posts.forEach(function(post){ %>
-<div class="card">
-    <div class="card-header">
-        Featured
-    </div>
-    <div class="card-body">
-        <h5 class="card-title">
-            <% post.tag.forEach(function(tag){%>
-            <button class="button button5"><%= tag %></button>
-            <% }) %>
-        </h5>
-        <p class="card-text"><%- post.text %></p>
-        <% if(post.author._id.equals(current)){ %>
-        <form action="/<%= post._id %>?_method=DELETE" method="POST">
-            <button class="button button4">delete</button>
-        </form>
-        <form action="/<%= post._id %>/edit" method="GET">
-            <button class="button button4">edit</button>
-        </form>
-        <% } %>
-
-    </div>
-    <% })%>
-
 </div>
 
 </html>

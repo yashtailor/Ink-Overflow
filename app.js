@@ -81,7 +81,7 @@ app.post('/register', function (req, res) {
             }
         })
     } else {
-        User.register(new User({ username: req.body.username }), req.body.password, function (err, user) {
+        User.register(new User({ username: req.body.username, desc: req.body.desc, email: req.body.email }), req.body.password, function (err, user) {
             if (err) {
                 console.log(err)
                 res.redirect('/')
@@ -220,11 +220,15 @@ app.get('/:id/profile', isLoggedIn, function (req, res) {
     var flag = true;
     var flag2 = false;
     // console.log("=====================")
-    // console.log(req.params.id);
-    // console.log(req.user._id);
-    if (req.params.id == req.user._id) {
+    console.log(req.params.id);
+    console.log(req.user._id);
+    console.log(typeof (req.params.id))
+    console.log(typeof (req.user._id))
+
+    if (String(req.params.id) === String(req.user._id)) {
         flag = false;
         flag2 = true;
+        console.log("==========================");
     } else {
         User.findById(req.params.id).populate('followers.users').exec(function (err, Tuser) {
             for (var i = 0; i < Tuser.followers.users.length; i++) {
@@ -288,8 +292,8 @@ app.post('/:id/addFollower', function (req, res) {
 app.post('/unfollow/:id', function (req, res) {
     User.findById(req.user._id).populate('following.users').exec(function (err, user) {
         var len = user.following.users.length;
-        console.log('user',user)
-        console.log('len',len);
+        console.log('user', user)
+        console.log('len', len);
         for (var i = 0; i < len; i++) {
             if (String(user.following.users[i]._id) == String(req.params.id)) {
                 user.following.users.splice(i, 1);
@@ -599,14 +603,16 @@ app.post('/:cid/:aid/addInnerComment', isLoggedIn, function (req, res) {
         })
     })
 })
-app.post("/:id", function (req, res) {
+app.post("/del/:aid/:id", function (req, res) {
+    aid = req.params.aid;
+    console.log("===================" + aid);
     console.log("coming here");
     Post.findByIdAndRemove(req.params.id, function (err) {
         if (err) {
             res.redirect("/");
         } else {
             console.log('deleted');
-            res.redirect("/");
+            res.redirect('/' + req.params.aid + '/profile/');
         }
     });
 });

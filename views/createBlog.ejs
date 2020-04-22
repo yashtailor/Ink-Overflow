@@ -7,17 +7,48 @@
     referrerpolicy="origin"></script>
   <style>
     .inner {
-      padding: 100px;
-      margin: auto;
-      width: 70%;
+      padding: 10px;
+      margin-left: 5%;
+      width: 50%;
       height: 10%
     }
+
+    .button {
+      display: inline-block;
+      padding: 5px 5px;
+      font-size: 10px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      outline: none;
+      color: #fff;
+      background-color: blue;
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 9px #999;
+    }
+
+    .button:hover {
+      background-color: #3e8e41
+    }
+
+    .button:active {
+      background-color: #3e8e41;
+      box-shadow: 0 5px #666;
+      transform: translateY(4px);
+    }
+  </style>
+
   </style>
 </head>
 
-<body>
+<body
+  style="background-image: url('https://image.shutterstock.com/image-illustration/alcohol-ink-sea-texture-contemporary-260nw-1490726699.jpg'); background-size:cover;">
   <div class="inner">
     <form action="/createPost" method="POST">
+      <button
+        style="background-color: black; color: white; margin-top: 10px; width: 100px; height:50px; border: 2px solid blueviolet;">Create
+        Post</button>
       <textarea rows="6" name="text">
     Pen here
   </textarea>
@@ -34,10 +65,9 @@
 
       <script src="/wp-includes/js/addInput.js" language="Javascript" type="text/javascript"></script>
       <div id="dynamicInput">
-        Tags<br> <small>Note: One or more tags should be added.You can add maximum 5 tags!</small>
-        <br><input type="text" name="myInputs[]" placeholder="add the tag">
+        <br><input type="text" name="myInputs[]" placeholder="Tag associated with your post">
       </div>
-      <input type="button" value="Add another text input" onClick="addInput('dynamicInput');">
+      <input type="button" class="button" value="Add another tag" onClick="addInput('dynamicInput');">
       <script>
         var counter = 1;
         var limit = 5;
@@ -48,7 +78,7 @@
           }
           else {
             var newdiv = document.createElement('div');
-            newdiv.innerHTML = "Tag" + (counter + 1) + " <br><input type='text' name='myInputs[]' placeholder='add the tag' required>";
+            newdiv.innerHTML = "<br><input type='text' name='myInputs[]' placeholder='Tag associated with your post' required>";
             document.getElementById(divName).appendChild(newdiv);
             counter++;
           }
@@ -56,8 +86,7 @@
 
       </script>
       <br>
-      <button
-        style="background-color: blue; color: white; margin-top: 10px; width: 100px; height:50px; border: 2px solid blueviolet;">SUBMIT</button>
+
     </form>
   </div>
 </body>
