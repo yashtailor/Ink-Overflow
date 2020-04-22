@@ -1,24 +1,44 @@
 <%- include("./partials/header") %>
+<% if(flag=="1"){ %>
+<h3 style="color: white; text-align: center;">Followers</h3>
+<% user.followers.users.forEach(function(author){ %>
+<div class="card" style="width: 18rem;">
+  <a href="/<%= author._id %>/profile"><%= author.username %></a>
 
-<div style="margin-top:100px; width: 150px; margin-left: 40%;">
-  <% if(flag=="1"){ %>
-  <h3 style="color: white; text-align: center;">Followers</h3>
-  <% user.followers.users.forEach(function(author){ %>
-  <div style="border: 2px solid white; margin: 10px;">
-    <a href="/<%= author._id %>/profile"><%= author.username %></a>
-    <p>followers- <%= author.followers.number %></p>
-    <p>following- <%= author.following.number %></p>
-  </div>
-  <% }) %>
-  <% }else{ %>
-  <h3 style="color: white; text-align: center;">Following</h3>
-  <% user.following.users.forEach(function(author){ %>
-  <div style="border: 2px solid white; margin: 10px;">
-    <a href="/<%= author._id %>/profile"><%= author.username %></a>
-    <p>followers- <%= author.followers.number %></p>
-    <p>following- <%= author.following.number %></p>
-  </div>
-  <%  }) %>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <p>followers- <%= author.followers.number %></p>
+    </li>
+    <li class="list-group-item">
+      <p>following- <%= author.following.number %></p>
+    </li>
+  </ul>
+</div>
+<% }) %>
+<% }else{ %>
+<h3 style="color: white; text-align: center;">Followers</h3>
+<% user.followers.users.forEach(function(author){ %>
+<div class="card" style="width: 18rem;">
+  <a href="/<%= author._id %>/profile"><%= author.username %></a>
+
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <p>followers- <%= author.followers.number %></p>
+    </li>
+    <li class="list-group-item">
+      <p>following- <%= author.following.number %></p>
+    </li>
+  </ul>
+  <% if(isCurrentUser){ %>
+  <form action="/unfollow/<%= author._id%>" method="POST">
+    <button class="btn btn-danger">Unfollow</button>
+  </form>
   <% } %>
 </div>
+<%  }) %>
+<% } %>
+
+
+
+
 <%- include("./partials/footer") %>

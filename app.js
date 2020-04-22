@@ -207,9 +207,13 @@ app.post('/createPost', isLoggedIn, function (req, res) {
 app.get('/:id/follows/:num', function (req, res) {
     var userId = req.params.id;
     var num = req.params.num;
+    var isCuurentUser = false;
+    if (String(req.user._id) == String(userId)) {
+        isCurrentUser = true;
+    }
     User.findById(userId).populate('followers.users following.users').exec(function (err, Tuser) {
         console.log('Tuser', Tuser)
-        res.render('followerAndFollowing', { user: Tuser, flag: num })
+        res.render('followerAndFollowing', { user: Tuser, flag: num, isCurrentUser: isCurrentUser })
     })
 })
 
@@ -280,6 +284,21 @@ app.post('/:id/addFollower', function (req, res) {
             })
         })
     }
+})
+
+app.post('/unfollow/:id', function (req, res) {
+    User.findById(req.user._id).populate('following.users').exec(function (err, user) {
+        var len = user.following.users.length;
+        console.log(len);
+        for (var i = 0; i < len; i++) {
+            if (String(user.following.users[i]._id) == String(req.params.id)) {
+                user.following.users.splice(i, 1);
+                user.save();
+                res.redirect('/' + req.user._id + '/follows/0')
+                break;
+            }
+        }
+    })
 })
 
 app.post('/:id/increaseLike', isLoggedIn, function (req, res) {

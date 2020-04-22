@@ -1,76 +1,100 @@
-<%- include("./partials/header") %>
-<style>
-    .button {
-        border: none;
-        color: white;
-        padding: 3px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 2px 2px;
-        cursor: pointer;
-    }
+<%- include("./partials/headerprofile") %>
+</head>
+<div class="container bootstrap snippet">
+    <div class="row">
+        <!-- BEGIN USER PROFILE -->
+        <div class="col-md-12">
+            <div class="grid profile">
+                <div class="grid-header">
+                    <div class="col-xs-2">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-circle" alt="">
+                    </div>
+                    <div class="col-xs-7">
+                        <h3><%= user.username %></h3>
+                        <p>@bootdey</p>
+                        <p>Website Developer, Programmer</p>
+                        <p>Bootdey City, NY, USA</p>
+                    </div>
+                    <div class="col-xs-3 text-right">
+                        <p><a href="" title="Everyone can see your profile"><i class="fa fa-globe"></i> Everyone</a></p>
+                    </div>
+                </div>
+                <div class="grid-body">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
+                        <li class=""> <% if(flag2){ %>
+                            <a href="/createBlog"><button class="btn btn-info">Create new Pen</button></a>
+                            <% } %></li>
+                    </ul>
+                    <div class="tab-content">
+                        <!-- BEGIN PROFILE -->
+                        <div class="row">
+                            <div class="col-sm-4 stats">
+                                <a href="/<%= user._id %>/follows/1">
+                                    <h1><%= user.followers.number %></h1>
+                                    <span>Followes</span>
+                                    <button class="btn btn-success"><i class="fa fa-plus-circle"></i> Follow</button>
+                            </div>
+                            <div class="col-sm-4 stats">
+                                <a href="/<%= user._id %>/follows/0">following <h1><%= user.following.number %></h1>
+                                    <span>Following</span>
+                                    <button class="btn btn-info"><i class="fa fa-user"></i> View Profile</button>
+                            </div>
+                            <div class="col-sm-4 stats">
+                                <h1> <%= user.reputation %></h1>
+                                <span>Reputation</span>
+                                <button class="btn btn-danger"><i class="fa fa-rss"></i> Subscribe</button>
+                            </div>
+                            <% if(flag){ %>
+                            <form action="/<%= user._id %>/addFollower" method="POST">
+                                <button class="btn btn-success">Follow</button>
+                            </form>
+                            <% }%>
 
-    #outer {
-        width: 180%;
-        text-align: center;
-    }
+                        </div>
 
-    .inner {
-        display: inline-block;
-    }
+                    </div>
 
-
-    .button4 {
-        background-color: #e7e7e7;
-        color: black;
-    }
-
-    .button5 {
-        background-color: #555555;
-    }
-
-    /* Black */
-</style>
-
-<div>
-    <a href="/<%= user._id %>/follows/1">followers - <%= user.followers.number %></a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="/<%= user._id %>/follows/0">following - <%= user.following.number %></a>
-    <p>Reputation: <%= user.reputation %></p>
-    <% if(flag){ %>
-    <form action="/<%= user._id %>/addFollower" method="POST">
-        <button class="btn btn-success">Follow</button>
-    </form>
-    <% }%>
-    <% user.posts.forEach(function(post){ %>
-    <div class="container"
-        style="font-size: 20px; padding: 20px; margin: 20px; border: 3px solid black; background-color: lightgreen; border-radius: 20px">
-        <p><%- post.text %> </p>
-        <p> - <%= post.author.username %></p>
-        <% post.tag.forEach(function(tag){%>
-        <button class="button button5"><%= tag %></button>
-        <% }) %>
-        <div id="outer">
-            <% if(post.author._id.equals(current)){ %>
-            <div class="inner">
-                <form action="/<%= post._id %>?_method=DELETE" method="POST">
-                    <button class="button button4">delete</button>
-                </form>
+                </div>
             </div>
-            <div class="inner">
-                <form action="/<%= post._id %>/edit" method="GET">
-                    <button class="button button4">edit</button>
-                </form>
-            </div>
+
         </div>
-
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        Featured
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+</div>
+<% user.posts.forEach(function(post){ %>
+<div class="card">
+    <div class="card-header">
+        Featured
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">
+            <% post.tag.forEach(function(tag){%>
+            <button class="button button5"><%= tag %></button>
+            <% }) %>
+        </h5>
+        <p class="card-text"><%- post.text %></p>
+        <% if(post.author._id.equals(current)){ %>
+        <form action="/<%= post._id %>?_method=DELETE" method="POST">
+            <button class="button button4">delete</button>
+        </form>
+        <form action="/<%= post._id %>/edit" method="GET">
+            <button class="button button4">edit</button>
+        </form>
         <% } %>
 
     </div>
     <% })%>
-    <% if(flag2){ %>
-    <a href="/createBlog"><button class="btn btn-info">Create new Pen</button></a>
-    <% } %>
+
 </div>
-<%- include("./partials/footer") %>
+
+</html>
