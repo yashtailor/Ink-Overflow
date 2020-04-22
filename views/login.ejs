@@ -1,4 +1,4 @@
-<%- include("./partials/header") %>
+<%- include("./partials/header2") %>
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 <style>
     input,
@@ -10,9 +10,10 @@
         text-align: center;
         border: 1px solid black;
     }
-    button{
+
+    button {
         background-color: rgb(61, 21, 6);
-        color:white;
+        color: white;
     }
 
     .container {
@@ -25,7 +26,7 @@
     }
 
     body {
-        background-image:url('https://lh3.googleusercontent.com/proxy/lLokn8QwngIcv34K1yhoLrQE8wchvL6Pr6Mfgt-t0VUffzjV4afDOAG6b022Ce7gT6SuT9HnxbNw5ES_OyslIJuOXgqBGmD325OogRXz');
+        background-image: url('https://lh3.googleusercontent.com/proxy/lLokn8QwngIcv34K1yhoLrQE8wchvL6Pr6Mfgt-t0VUffzjV4afDOAG6b022Ce7gT6SuT9HnxbNw5ES_OyslIJuOXgqBGmD325OogRXz');
         opacity: 0.7;
         background-size: cover;
         background-repeat: no-repeat;
@@ -38,18 +39,17 @@
         text-align: center;
         font-size: 50px;
         color: rgb(61, 21, 6);
-        
+
         margin-bottom: 10px;
     }
-    </style>
+</style>
 
 <div class="container" style="margin-left: 30%; margin-top: 6%;">
     <form action="/login" method="POST" class="form form-group">
         <h3>Login</h3>
         <input type="text" placeholder="username" name="username"><br>
         <input type="password" placeholder="password" name="password"><br>
-        <button type="submit" 
-            style="border-radius: 10px;">Submit</button>
+        <button type="submit" style="border-radius: 10px;">Submit</button>
     </form>
     <a href="/register" style="text-align:center; color:rgb(61, 21, 6)">Don't have an account? Click here</a>
 </div>

@@ -1,5 +1,55 @@
 <%- include("./partials/header") %>
 <style>
+    .card {
+        -webkit-box-shadow: 0px 10px 10px #de1dde;
+        -moz-box-shadow: 0px 10px 10px #de1dde;
+        box-shadow: 0px 16px 16px grey;
+        margin-right: 10%;
+        margin-left: 5%
+    }
+
+    .sidenav {
+        height: 100%;
+        width: 160px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #E5E4E2;
+        overflow-x: hidden;
+        padding-top: 50px;
+    }
+
+    .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+    }
+
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+    .main {
+        margin-left: 160px;
+        /* Same as the width of the sidenav */
+        font-size: 28px;
+        /* Increased text to enable scrolling */
+        padding: 0px 10px;
+    }
+
+    @media screen and (max-height: 450px) {
+        .sidenav {
+            padding-top: 65px;
+        }
+
+        .sidenav a {
+            font-size: 18px;
+        }
+    }
+
     .button {
         border: none;
         color: white;
@@ -31,72 +81,88 @@
         background-color: #555555;
     }
 </style>
-<div style="padding-top: 50px;">
+<div class="sidenav">
+    <a href="#">Love</a>
+    <a href="#">Nature</a>
+    <a href="#clients">Comic</a>
+    <a href="#contact">Thriller</a>
+</div>
+
+<div class="main">
     <% posts.forEach(function(post){ %>
-    <div class="container"
-        style="font-size: 20px; padding: 20px; margin: 20px; border: 3px solid black; background-color: lightgreen; border-radius: 20px">
+
+    <div class="card">
         <p><%- post.text %></p>
-        <a href="/<%= post.author._id %>/profile"> - <%= post.author.username %></a>
-        <% post.tag.forEach(function(tag){%>
-        <button class="button button5"><%= tag %></button>
-        <% }) %>
+        <div class="card-header">
+            <% post.tag.forEach(function(tag){%>
+            <button class="button button5"><%= tag %></button>
+            <% }) %>
 
 
-        <form action="/<%= post._id %>/increaseLike" method="POST">
-            <button>
-                <i class="glyphicon glyphicon-heart" style="color:red"> </i>
-            </button>
-            <%= post.likes.number %>
-        </form>
-        <form action="/<%= post._id %>/addComment" method="POST">
-            <input type="text" name="comment_text" placeholder="comment">
-            <button class="btn btn-info">Comment</button>
-        </form>
-        <hr>
-        <h4>Comments:</h4>
-        <% post.comments.forEach(function(comment){ %>
-        <div style="font-size: 20px;margin:3px; border:1px solid black; padding: 5px; border-radius: 20px">
-            <p>
-                <a href="/<%= post.author._id %>/profile">@<%= post.author.username %></a>
-                &nbsp; &nbsp;
-                <%= comment.text %>
-            </p>
-            <p>by - <a href="/<%= comment.author._id %>/profile"><%= comment.author.username %></a></p>
-            <form action="/<%= comment._id %>/commentLike" style="float: left;" method="POST">
+
+        </div>
+        <div class="card-body">
+            <h2> <a href="/<%= post.author._id %>/profile"> Posted by <%= post.author.username %></a>
+            </h2>
+
+        </div>
+        <div class="card-footer">
+            <form action="/<%= post._id %>/increaseLike" method="POST">
                 <button>
                     <i class="glyphicon glyphicon-heart" style="color:red"> </i>
                 </button>
-                <%= comment.likes.number %>
+                <%= post.likes.number %>
             </form>
-
-            <form action="/<%= comment._id %>/<%= comment.author._id %>/addInnerComment" method="POST">
+            <form action="/<%= post._id %>/addComment" method="POST">
                 <input type="text" name="comment_text" placeholder="comment">
-                <button class="btn btn-success">Comment</button>
+                <button class="btn btn-info">Comment</button>
             </form>
-            <% comment.innerComments.forEach(function(innerC){ %>
-            <div style="margin-left: 40px; border:1px solid green; border-radius: 20px; padding: 5px;">
-                <a href="<%= innerC.Tauthor._id %>/profile/">@<%= innerC.Tauthor.username %></a>
-                <p><%= innerC.text %></p>
-                <a href="<%= innerC.Fauthor._id %>/profile/">-<%= innerC.Fauthor.username %></a><br>
-                <form action="/<%= innerC._id %>/innerCommentLike" method="POST" style="float: left;">
+            <hr>
+            <h4>Comments:</h4>
+            <% post.comments.forEach(function(comment){ %>
+            <div style="font-size: 20px;margin:3px; border:1px solid black; padding: 5px; border-radius: 20px">
+                <p>
+                    <a href="/<%= post.author._id %>/profile">@<%= post.author.username %></a>
+                    &nbsp; &nbsp;
+                    <%= comment.text %>
+                </p>
+                <p>by - <a href="/<%= comment.author._id %>/profile"><%= comment.author.username %></a></p>
+                <form action="/<%= comment._id %>/commentLike" style="float: left;" method="POST">
                     <button>
                         <i class="glyphicon glyphicon-heart" style="color:red"> </i>
                     </button>
-                    <%= innerC.likes.number %>
+                    <%= comment.likes.number %>
                 </form>
-                <form action="/<%= comment._id %>/<%= innerC.Fauthor._id %>/addInnerComment" method="POST">
-                    <input type="text" placeholder="comment" name="comment_text">
-                    <button class="btn btn-info">comment</button>
+
+                <form action="/<%= comment._id %>/<%= comment.author._id %>/addInnerComment" method="POST">
+                    <input type="text" name="comment_text" placeholder="comment">
+                    <button class="btn btn-success">Comment</button>
                 </form>
+                <% comment.innerComments.forEach(function(innerC){ %>
+                <div style="margin-left: 40px; border:1px solid green; border-radius: 20px; padding: 5px;">
+                    <a href="<%= innerC.Tauthor._id %>/profile/">@<%= innerC.Tauthor.username %></a>
+                    <p><%= innerC.text %></p>
+                    <a href="<%= innerC.Fauthor._id %>/profile/">-<%= innerC.Fauthor.username %></a><br>
+                    <form action="/<%= innerC._id %>/innerCommentLike" method="POST" style="float: left;">
+                        <button>
+                            <i class="glyphicon glyphicon-heart" style="color:red"> </i>
+                        </button>
+                        <%= innerC.likes.number %>
+                    </form>
+                    <form action="/<%= comment._id %>/<%= innerC.Fauthor._id %>/addInnerComment" method="POST">
+                        <input type="text" placeholder="comment" name="comment_text">
+                        <button class="btn btn-info">comment</button>
+                    </form>
+                </div>
+                <% }) %>
             </div>
             <% }) %>
         </div>
-        <% }) %>
+
     </div>
     <% })%>
+    <% if(flag){ %>
+    <script>alert('You must a have a reputation greater than 10 inks for upvoting')</script>
+    <% } %>
 </div>
-<% if(flag){ %>
-<script>alert('You must a have a reputation greater than 10 inks for upvoting')</script>
-<% } %>
-
 <%- include("./partials/footer") %>
