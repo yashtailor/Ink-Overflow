@@ -16,8 +16,8 @@
 </div>
 <% }) %>
 <% }else{ %>
-<h3 style="color: white; text-align: center;">Followers</h3>
-<% user.followers.users.forEach(function(author){ %>
+<h3 style="color: black; text-align: center;">Following</h3>
+<% user.following.users.forEach(function(author){ %>
 <div class="card" style="width: 18rem;">
   <a href="/<%= author._id %>/profile"><%= author.username %></a>
 
