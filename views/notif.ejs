@@ -1,24 +1,46 @@
 <%- include("./partials/header") %>
 <style>
     .notifdiv {
-        background-color: whitesmoke;
-        margin: 10px;
-        border: 1px solid black;
-        font-size: 20px;
-        padding: 10px;
+        -webkit-box-shadow: 0px 10px 10px #de1dde;
+        -moz-box-shadow: 0px 10px 10px #de1dde;
+        box-shadow: 0px 8px 8px rgb(60, 117, 163);
+        background: #ff4b1f;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #ff9068, #ff4b1f);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #ff9068, #ff4b1f); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        margin-right: 10%;
+        margin-left: 5%;
+        margin-bottom:2%;
+        overflow: auto;
+        max-height: 400px;
+        font-family: 'Pacifico', cursive;
+        background-color: white;
     }
+    body{
+        background: #fceabb;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #f8b500, #fceabb);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #f8b500, #fceabb); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        font-family: 'Pacifico', cursive;
+        font-size: 20px;
+    }
+
+    hr{
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    }
+
 </style>
 
 <body>
     <div style="margin-top: 80px;">
         <h1 style="text-align: center;">NOTIFICATIONS:</h1>
         <form action="/user/clrNotifs" method="POST">
-            <button class="btn btn-danger">CLEAR NOTIFS</button>
-        </form>
+            <button class="btn btn-danger" style="margin-left: 5%;">CLEAR NOTIFS</button>
+        </form><br>
         <% notifs.forEach(function(notif){ %>
         <div class="notifdiv">
-            <p><%= notif.text %><p>
-                    <p><%= notif.time %></p>
+            <p><%= notif.text %><p><hr>
+                    <p>At &nbsp;<%= notif.time %></p>
         </div>
         <% })%>
     </div>

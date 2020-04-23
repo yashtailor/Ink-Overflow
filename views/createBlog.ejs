@@ -33,9 +33,9 @@
       text-align: center;
       border: 2px solid white;
       padding: 20px;
-      -webkit-box-shadow: 0px 10px 10px #de1dde;
-      -moz-box-shadow: 0px 10px 10px #de1dde;
-      box-shadow: 0px 8px 8px rgb(240, 160, 206);
+      -webkit-box-shadow: 0px 20px 20px rgb(150, 27, 97);
+      -moz-box-shadow: 0px 20px 20px rgb(150, 27, 97);
+      box-shadow: 0px 8px 8px rgb(150, 27, 97);
     }
 
     .button {
@@ -49,10 +49,11 @@
     }
 
     body{
-      background: #AA076B;  
-      background: -webkit-linear-gradient(to right, #61045F, #AA076B);  
-      background: linear-gradient(to right, #61045F, #AA076B); 
-
+      background: #FFAFBD;  /* fallback for old browsers */
+      background: -webkit-linear-gradient(to right, #ffc3a0, #FFAFBD);  /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to right, #ffc3a0, #FFAFBD); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      font-family: 'Pacifico', cursive;
+      font-size: 20px;
     }
   </style>
 </head>
@@ -77,10 +78,10 @@
       <script src="/wp-includes/js/addInput.js" language="Javascript" type="text/javascript"></script>
       <h4 style="color: white; text-align: left;">Add Tags:</h4>
       <div id="dynamicInput">
-        <br><input type="text" name="myInputs[]" placeholder="Tag associated with your post" style="float: left;margin-right: 300px;width:210px">
+        <br><input type="text" name="myInputs[]" placeholder="Tag your ink" style="float: left;margin-right: 300px;width:200px;text-align: center;color:white">
         
       </div>
-      <input type="button" class="button" value="Add another tag" onClick="addInput('dynamicInput');" required>
+      <input type="button" class="button" value="Add More.." onClick="addInput('dynamicInput');" required style="width: 100px; font-size: 15px;">
       <script>
         var counter = 1;
         var limit = 5;
@@ -91,7 +92,7 @@
           }
           else {
             var newdiv = document.createElement('div');
-            newdiv.innerHTML = "<br><br><input type='text' name='myInputs[]' placeholder='Tag associated with your post' required style='float:left; margin-right:300px;width:210px;'>";
+            newdiv.innerHTML = "<br><br><input type='text' name='myInputs[]' placeholder='Tag your ink' required style='float:left; margin-right:300px;width:210px;color:white;text-align:center'>";
             document.getElementById(divName).appendChild(newdiv);
             counter++;
           }

@@ -128,18 +128,23 @@
 
     .alphabeauty{
         background: #0F2027;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-
+        background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        font-family: 'Pacifico', cursive;
     }
 </style>
 
 <div class="sidenav alphabeauty">
-    <a href="#">Love</a>
-    <a href="#">Nature</a>
-    <a href="#clients">Comic</a>
-    <a href="#contact">Thriller</a>
+    <h3 style="color: rgba(255,255,255,0.4);text-align: center;margin-right: 15px;">Tags</h3>
+    <% tagsList.forEach(function(tag){ %>
+        <a href="/search/<%= tag[0]%>">
+            <%if(currentSearch == tag[0]){ %>
+                <span style="color:white"><%= tag[0] %></span>
+            <%}else{ %>
+                <%= tag[0] %>
+            <% } %>
+        </a>
+    <% })%>
 </div>
 
 <div class="main">

@@ -51,16 +51,30 @@ app.get('/', function (req, res) {
 
 app.get('/feed', function (req, res) {
     var flag = false;
+    var tagsList = {};
     Post.find().populate('author').
         populate('likes').
         populate({ path: 'comments', populate: [{ path: 'author' }, { path: 'likes' }, { path: 'innerComments', populate: [{ path: 'Fauthor' }, { path: 'Tauthor' }, { path: 'likes', populate: [{ path: 'comment' }, { path: 'authors', populate: 'users' }] }, { path: 'comment' }] }, { path: 'post' }] }).
         sort({ _id: -1 }).exec(function (err, posts) {
             posts.forEach(function (post) {
-                post.comments.forEach(function (comment) {
-                    // console.log(comment.innerComments.likes)
+                post.tag.forEach(function (tag) {
+                    tagsList[tag] = 0;
                 })
             })
-            res.render('feed', { posts: posts, flag: flag })
+            posts.forEach(function (post) {
+                post.tag.forEach(function (tag) {
+                    tagsList[tag] += 1;
+                })
+            })
+            var arrayOfTags = [];
+            for(var tage in tagsList){
+                arrayOfTags.push([tage,tagsList[tage]]);
+            }
+            var sorted = arrayOfTags.sort(function(a, b) {
+                return b[1] - a[1];
+              });
+              console.log(sorted)
+            res.render('feed', { posts: posts, flag: flag ,tagsList:sorted,currentSearch:undefined})
         })
 })
 
@@ -145,22 +159,73 @@ app.post('/user/clrNotifs', function (req, res) {
 
 
 app.post('/search', function (req, res) {
-
-
     var flag = false;
-    tag = req.body.search;
+    var tag = req.body.searchtext;
     console.log("================")
     console.log(tag);
     Post.find({ tag: tag }).populate('author').
         populate('likes').
         populate({ path: 'comments', populate: [{ path: 'author' }, { path: 'likes' }, { path: 'innerComments', populate: [{ path: 'Fauthor' }, { path: 'Tauthor' }, { path: 'likes', populate: [{ path: 'comment' }, { path: 'authors', populate: 'users' }] }, { path: 'comment' }] }, { path: 'post' }] }).
         sort({ _id: -1 }).exec(function (err, posts) {
-            posts.forEach(function (post) {
-                post.comments.forEach(function (comment) {
-                    console.log(comment.innerComments.likes)
+            Post.find().exec(function(err,posti){
+                var tagsList = {};
+                posti.forEach(function (post) {
+                    post.tag.forEach(function (tag) {
+                        tagsList[tag] = 0;
+                    })
                 })
+                posti.forEach(function (post) {
+                    post.tag.forEach(function (tag) {
+                        tagsList[tag] += 1;
+                    })
+                })
+                var arrayOfTags = [];
+                for(var tage in tagsList){
+                    arrayOfTags.push([tage,tagsList[tage]]);
+                }
+                var sorted = arrayOfTags.sort(function(a, b) {
+                    return b[1] - a[1];
+                  });
+                console.log(sorted);
+                var count = 0;
+                res.render('feed', { posts: posts, flag: flag ,tagsList:sorted,currentSearch:tag})
             })
-            res.render('feed', { posts: posts, flag: flag })
+        })
+
+})
+
+app.get('/search/:id', function (req, res) {
+    var flag = false;
+    var tag = req.params.id;
+    console.log("================")
+    console.log(tag);
+    Post.find({ tag: tag }).populate('author').
+        populate('likes').
+        populate({ path: 'comments', populate: [{ path: 'author' }, { path: 'likes' }, { path: 'innerComments', populate: [{ path: 'Fauthor' }, { path: 'Tauthor' }, { path: 'likes', populate: [{ path: 'comment' }, { path: 'authors', populate: 'users' }] }, { path: 'comment' }] }, { path: 'post' }] }).
+        sort({ _id: -1 }).exec(function (err, posts) {
+            Post.find().exec(function(err,posti){
+                var tagsList = {};
+                posti.forEach(function (post) {
+                    post.tag.forEach(function (tag) {
+                        tagsList[tag] = 0;
+                    })
+                })
+                posti.forEach(function (post) {
+                    post.tag.forEach(function (tag) {
+                        tagsList[tag] += 1;
+                    })
+                })
+                var arrayOfTags = [];
+                for(var tage in tagsList){
+                    arrayOfTags.push([tage,tagsList[tage]]);
+                }
+                var sorted = arrayOfTags.sort(function(a, b) {
+                    return b[1] - a[1];
+                  });
+                console.log(sorted);
+                var count = 0;
+                res.render('feed', { posts: posts, flag: flag ,tagsList:sorted,currentSearch:tag})
+            })
         })
 
 })
@@ -674,6 +739,9 @@ app.get('/decideUser', function (req, res) {
         })
 })
 
+app.get('/aboutUs',function(req,res){
+    res.render('about_us');
+})
 app.listen(process.env.PORT || 3000, function () {
     console.log('server is running ....')
 })
