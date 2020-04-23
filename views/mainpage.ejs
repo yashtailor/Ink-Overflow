@@ -1,5 +1,9 @@
 <%- include("./partials/headerprofile") %>
 <style>
+    .card {
+        height: 250px;
+    }
+
     .button {
         border: none;
         color: white;
@@ -37,7 +41,8 @@
             <div class="grid profile">
                 <div class="grid-header">
                     <div class="col-xs-2">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-circle" alt="">
+                        <img src="data:image/jpeg;base64,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"
+                            class="img-circle" alt="">
                     </div>
                     <div class="col-xs-7">
                         <h3><%= user.username %></h3>
@@ -64,13 +69,15 @@
                                     <h1><%= user.followers.number %></h1>
                                     <span>Followes</span>
                                     <button class="btn btn-success"><i class="fa fa-plus-circle"></i>
-                                        Follow</button></a>
+                                        Follow</button>
+                                </a>
                             </div>
                             <div class="col-sm-4 stats">
                                 <a href="/<%= user._id %>/follows/0">
                                     <h1><%= user.following.number %></h1>
-                                    <span>Following</span></a>
-                                    <!-- <button class="btn btn-info"><i class="fa fa-user"></i> View Profile</button> -->
+                                    <span>Following</span>
+                                </a>
+                                <button class="btn btn-info"><i class="fa fa-user"></i> View Profile</button>
                             </div>
                             <div class="col-sm-4 stats">
                                 <h1> <%= user.reputation %></h1>
@@ -106,7 +113,9 @@
 
                                     <form action="/del/<%= post.author._id %>/<%= post._id %>?_method=DELETE"
                                         method="POST">
-                                        <button class="button button4">delete</button>
+                                        <button style="border: none; background-color: rgba(0, 0, 0, 0);">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </button>
                                     </form>
                                 </div>
                                 <div class="inner">
