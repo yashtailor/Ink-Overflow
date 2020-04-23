@@ -23,7 +23,7 @@ var User = require('../models/User'),
 var router = express.Router();
 
 router.get('/', function (req, res) {
-    res.redirect('/feed')
+    res.render('spinner')
 })
 
 router.get('/feed', function (req, res) {

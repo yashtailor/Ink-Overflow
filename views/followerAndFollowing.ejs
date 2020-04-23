@@ -1,44 +1,72 @@
 <%- include("./partials/header") %>
-<% if(flag=="1"){ %>
-<h3 style="color: white; text-align: center;">Followers</h3>
-<% user.followers.users.forEach(function(author){ %>
-<div class="card" style="width: 18rem;">
-  <a href="/<%= author._id %>/profile"><%= author.username %></a>
+<style>
+  body {
+    background: #076585;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #fff, #076585);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #fff, #076585);
 
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">
-      <p>followers- <%= author.followers.number %></p>
-    </li>
-    <li class="list-group-item">
-      <p>following- <%= author.following.number %></p>
-    </li>
-  </ul>
-</div>
-<% }) %>
-<% }else{ %>
-<h3 style="color: black; text-align: center;">Following</h3>
-<% user.following.users.forEach(function(author){ %>
-<div class="card" style="width: 18rem;">
-  <a href="/<%= author._id %>/profile"><%= author.username %></a>
+  }
 
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">
-      <p>followers- <%= author.followers.number %></p>
-    </li>
-    <li class="list-group-item">
-      <p>following- <%= author.following.number %></p>
-    </li>
-  </ul>
-  <% if(isCurrentUser){ %>
-  <form action="/unfollow/<%= author._id%>" method="POST">
-    <button class="btn btn-danger">Unfollow</button>
-  </form>
-  <% } %>
-</div>
-<%  }) %>
-<% } %>
+  #rcorners1 {
+    border-radius: 20px;
+    background: black;
+    padding: 20px;
+    width: 200px;
+    height: 30px;
+  }
 
+  .center {
+    margin: auto;
+    padding-left: 500px;
+  }
+</style>
 
+<body>
+  <div class="center">
+    <% if(flag=="1"){ %>
+    <h3 style="color: white">Followers</h3>
+    <% user.followers.users.forEach(function(author){ %>
+    <div class="card" style="width: 18rem;">
+      <p id="rcorners1" style="text-align: center;">
+        <a href="/<%= author._id %>/profile"><strong><%= author.username %></strong></a>
 
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <p>followers- <%= author.followers.number %></p>
+          </li>
+          <li class="list-group-item">
+            <p>following- <%= author.following.number %></p>
+          </li>
+        </ul>
+      </p>
+    </div>
+    <% }) %>
+    <% }else{ %>
+    <h3 style="color: black; text-align: center;">Following</h3>
+    <% user.following.users.forEach(function(author){ %>
+    <div class="card" style="width: 18rem;">
+      <a href="/<%= author._id %>/profile"><%= author.username %></a>
+
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <p>followers- <%= author.followers.number %></p>
+        </li>
+        <li class="list-group-item">
+          <p>following- <%= author.following.number %></p>
+        </li>
+      </ul>
+      <% if(isCurrentUser){ %>
+      <form action="/unfollow/<%= author._id%>" method="POST">
+        <button class="btn btn-danger">Unfollow</button>
+      </form>
+      <% } %>
+    </div>
+    <%  }) %>
+    <% } %>
+
+  </div>
+</body>
 
 <%- include("./partials/footer") %>

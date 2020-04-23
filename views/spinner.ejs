@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>InkOverflow</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@577&display=swap" rel="stylesheet"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        .color {
+            background: #D3CCE3;
+            /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #E9E4F0, #D3CCE3);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #E9E4F0, #D3CCE3);
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+        }
+
+        img {
+            display: block;
+            margin-top: 85px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .main {
+            padding-left: 600px;
+            margin: auto;
+        }
+
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 8px solid black;
+            width: 100px;
+            height: 100px;
+            -webkit-animation: spin 2s linear infinite;
+            /* Safari */
+            animation: spin 2s linear infinite;
+        }
+
+        /* Safari */
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body style="background-color:whitesmoke
+">
+    <img src="/images/ink.jpeg" style="width:30%;">
+    <br>
+    <div class="main">
+        <div class="loader"></div>
+    </div>
+
+</body>
+<script>
+
+    setTimeout(function () {
+        location.replace("http://127.0.0.1:3000/feed")
+    }, 3000);
+
+</script>
+
+</html>

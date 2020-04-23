@@ -21,6 +21,7 @@ var indexRoutes = require("./routes/index"),
 var app = express()
 mongoose.connect('mongodb://localhost/ink_overflow')
 app.set('view engine', 'ejs')
+app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(require('express-session')({
     secret: 'ink overflow',

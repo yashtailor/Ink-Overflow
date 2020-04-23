@@ -1,24 +1,74 @@
 <%- include("./partials/header") %>
-<head>
-    <script src="https://cdn.tiny.cloud/1/ck34jpz332i3gk4dysyfxsru58yges66h6kj44w4qv7nann8/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+<script src="https://cdn.tiny.cloud/1/ck34jpz332i3gk4dysyfxsru58yges66h6kj44w4qv7nann8/tinymce/5/tinymce.min.js"
+  referrerpolicy="origin"></script>
+<style>
+  .create-post {
+    background: inherit;
+    border: 5px solid white;
+    padding: 15px;
+    color: white;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    width: 150px;
+  }
+
+  .inner {
+    padding: 10px;
+    margin-left: 25%;
+    width: 50%;
+    height: 10%;
+    text-align: center;
+    border: 2px solid white;
+    padding: 20px;
+    -webkit-box-shadow: 0px 20px 20px rgb(150, 27, 97);
+    -moz-box-shadow: 0px 20px 20px rgb(150, 27, 97);
+    box-shadow: 0px 8px 8px rgb(150, 27, 97);
+  }
+
+  .button {
+    background: inherit;
+    border: 5px solid white;
+    padding: 15px;
+    color: white;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    width: 110px;
+  }
+
+  body {
+    background: #FFAFBD;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #ffc3a0, #FFAFBD);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #ffc3a0, #FFAFBD);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    font-family: 'Pacifico', cursive;
+    font-size: 20px;
+  }
+</style>
 </head>
-<body style="margin-top: 100px; margin-left: 20px; margin-right: 20px;">
+
+<body>
+  <div class="inner">
     <form action="/edit/<%= post._id %>?method=PUT" method="POST">
-        <textarea rows="50" name="post[text]">
-          <%= post.text %>
-        </textarea>
-        <script>
-          tinymce.init({
-            selector: 'textarea',
-            plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-            toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
-            toolbar_mode: 'floating',
-            tinycomments_mode: 'embedded',
-            tinycomments_author: 'Yash Tailor'
-          });
-        </script>
-      <button class="btn btn-success">edit</button>
-  </form>
+      <textarea rows="30" name="post[text]">
+    <%= post.text %>
+  </textarea>
+      <script>
+        tinymce.init({
+          selector: 'textarea',
+          plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+          toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+          toolbar_mode: 'floating',
+          tinycomments_mode: 'embedded',
+          tinycomments_author: 'Yash Tailor'
+        });
+      </script>
+      <button class="create-post" style="margin-right: 15%;margin-top: 20px; ">Edit Post</button><br><br>
+    </form>
+  </div>
 </body>
 
+</html>
 <%- include("./partials/footer") %>
