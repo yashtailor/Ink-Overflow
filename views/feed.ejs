@@ -1,11 +1,18 @@
 <%- include("./partials/header") %>
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@577&display=swap" rel="stylesheet"
+    rel="stylesheet">
 <style>
     .card {
         -webkit-box-shadow: 0px 10px 10px #de1dde;
         -moz-box-shadow: 0px 10px 10px #de1dde;
-        box-shadow: 0px 16px 16px grey;
+        box-shadow: 0px 16px 16px rgb(60, 117, 163);
         margin-right: 10%;
-        margin-left: 5%
+        margin-left: 5%;
+        margin-bottom:5%;
+        overflow: auto;
+        max-height: 400px;
+        font-family: 'Pacifico', cursive;
+        background-color: white;
     }
 
     .sidenav {
@@ -35,7 +42,7 @@
     .main {
         margin-left: 160px;
         /* Same as the width of the sidenav */
-        font-size: 28px;
+        font-size: 20px;
         /* Increased text to enable scrolling */
         padding: 0px 10px;
     }
@@ -60,6 +67,7 @@
         font-size: 16px;
         margin: 2px 2px;
         cursor: pointer;
+        border-radius: 3px;
     }
 
     #outer {
@@ -78,10 +86,56 @@
     }
 
     .button5 {
-        background-color: #555555;
+        /*background-color: #555555;*/
+        background: #ec008c;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #fc6767, #ec008c);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #fc6767, #ec008c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+
+    hr{
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    }
+
+    input{
+        border-top: hidden;
+        border-left: hidden;
+        border-right: hidden;
+        border-bottom: 2px solid lightblue;
+        background-color: rgba(0, 0, 0, 0);
+    }
+    .btn-info,.btn-success{
+        width: 80px;
+        height: 30px;
+    }
+
+    .comment-div{
+        max-height: 250px;
+        overflow: auto;
+        background: #e65c00;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #F9D423, #e65c00);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #F9D423, #e65c00); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+
+    body{
+        background: #076585;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #fff, #076585);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #fff, #076585); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+
+    .alphabeauty{
+        background: #0F2027;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
     }
 </style>
-<div class="sidenav">
+
+<div class="sidenav alphabeauty">
     <a href="#">Love</a>
     <a href="#">Nature</a>
     <a href="#clients">Comic</a>
@@ -102,25 +156,25 @@
 
         </div>
         <div class="card-body">
-            <h3> <a href="/<%= post.author._id %>/profile"> Posted by <%= post.author.username %></a>
+            <h3> <a href="/<%= post.author._id %>/profile" style="font-size: 20px;"> Posted by <%= post.author.username %></a>
             </h3>
 
         </div>
         <div class="card-footer">
             <form action="/<%= post._id %>/increaseLike" method="POST">
-                <button>
-                    <i class="glyphicon glyphicon-heart" style="color:red"> </i>
+                <button style="border: none; background-color: rgba(0, 0, 0, 0);">
+                    <i class="glyphicon glyphicon-heart" style="color:red;height: 30px;"></i>
                 </button>
                 <%= post.likes.number %>
             </form>
             <form action="/<%= post._id %>/addComment" method="POST">
-                <input type="text" name="comment_text" placeholder="comment">
+                <input type="text" name="comment_text" placeholder="comment" style="border-bottom: 2px solid rgba(0,0,0,0.75);">
                 <button class="btn btn-info">Comment</button>
             </form>
             <hr>
             <h4>Comments:</h4>
             <% post.comments.forEach(function(comment){ %>
-            <div style="font-size: 20px;margin:3px; border:1px solid black; padding: 5px; border-radius: 20px">
+            <div style="font-size: 15px;margin:10px; padding: 5px; border-radius: 10px; background-color: rgba(0, 0, 0, 0.75); color: white;" class="comment-div">
                 <p>
                     <a href="/<%= post.author._id %>/profile">@<%= post.author.username %></a>
                     &nbsp; &nbsp;
@@ -128,10 +182,10 @@
                 </p>
                 <p>by - <a href="/<%= comment.author._id %>/profile"><%= comment.author.username %></a></p>
                 <form action="/<%= comment._id %>/commentLike" style="float: left;" method="POST">
-                    <button>
+                    <button style="border: none; background-color: rgba(0, 0, 0, 0);">
                         <i class="glyphicon glyphicon-heart" style="color:red"> </i>
                     </button>
-                    <%= comment.likes.number %>
+                    <%= comment.likes.number %> &nbsp;&nbsp;
                 </form>
 
                 <form action="/<%= comment._id %>/<%= comment.author._id %>/addInnerComment" method="POST">
@@ -139,15 +193,15 @@
                     <button class="btn btn-success">Comment</button>
                 </form>
                 <% comment.innerComments.forEach(function(innerC){ %>
-                <div style="margin-left: 40px; border:1px solid green; border-radius: 20px; padding: 5px;">
+                <div style="margin-left: 40px; border:1px solid white; border-radius: 10px; padding: 5px; margin-top: 5px; margin-bottom: 5px;">
                     <a href="<%= innerC.Tauthor._id %>/profile/">@<%= innerC.Tauthor.username %></a>
                     <p><%= innerC.text %></p>
                     <a href="<%= innerC.Fauthor._id %>/profile/">-<%= innerC.Fauthor.username %></a><br>
                     <form action="/<%= innerC._id %>/innerCommentLike" method="POST" style="float: left;">
-                        <button>
-                            <i class="glyphicon glyphicon-heart" style="color:red"> </i>
+                        <button style="border: none; background-color: rgba(0, 0, 0, 0); ">
+                            <i class="glyphicon glyphicon-heart" style="color:red;"> </i>
                         </button>
-                        <%= innerC.likes.number %>
+                        <%= innerC.likes.number %>&nbsp;&nbsp;
                     </form>
                     <form action="/<%= comment._id %>/<%= innerC.Fauthor._id %>/addInnerComment" method="POST">
                         <input type="text" placeholder="comment" name="comment_text">

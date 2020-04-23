@@ -1,4 +1,23 @@
 <%- include("./partials/header") %>
+<style>
+  .create-post{
+    background: inherit;
+    border: 5px solid white;
+    padding: 15px;
+    color:white;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    width: 150px;
+  }
+
+  input{
+    background-color: inherit;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid white;
+  }
+</style>
 <html>
 
 <head>
@@ -8,48 +27,40 @@
   <style>
     .inner {
       padding: 10px;
-      margin-left: 5%;
+      margin-left: 25%;
       width: 50%;
-      height: 10%
+      height: 10%;
+      text-align: center;
+      border: 2px solid white;
+      padding: 20px;
+      -webkit-box-shadow: 0px 10px 10px #de1dde;
+      -moz-box-shadow: 0px 10px 10px #de1dde;
+      box-shadow: 0px 8px 8px rgb(240, 160, 206);
     }
 
     .button {
-      display: inline-block;
-      padding: 5px 5px;
-      font-size: 10px;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
-      outline: none;
-      color: #fff;
-      background-color: blue;
-      border: none;
-      border-radius: 15px;
-      box-shadow: 0 9px #999;
+      background: inherit;
+      border: 5px solid white;
+      padding: 15px;
+      color:white;
+      border-top-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      width: 110px;
     }
 
-    .button:hover {
-      background-color: #3e8e41
-    }
+    body{
+      background: #AA076B;  
+      background: -webkit-linear-gradient(to right, #61045F, #AA076B);  
+      background: linear-gradient(to right, #61045F, #AA076B); 
 
-    .button:active {
-      background-color: #3e8e41;
-      box-shadow: 0 5px #666;
-      transform: translateY(4px);
     }
-  </style>
-
   </style>
 </head>
 
-<body
-  style="background-image: url('https://image.shutterstock.com/image-illustration/alcohol-ink-sea-texture-contemporary-260nw-1490726699.jpg'); background-size:cover;">
+<body>
   <div class="inner">
     <form action="/createPost" method="POST">
-      <button
-        style="background-color: black; color: white; margin-top: 10px; width: 100px; height:50px; border: 2px solid blueviolet;">Create
-        Post</button>
-      <textarea rows="6" name="text">
+  <textarea rows="30" name="text">
     Pen here
   </textarea>
       <script>
@@ -64,10 +75,12 @@
       </script>
 
       <script src="/wp-includes/js/addInput.js" language="Javascript" type="text/javascript"></script>
+      <h4 style="color: white; text-align: left;">Add Tags:</h4>
       <div id="dynamicInput">
-        <br><input type="text" name="myInputs[]" placeholder="Tag associated with your post">
+        <br><input type="text" name="myInputs[]" placeholder="Tag associated with your post" style="float: left;margin-right: 300px;width:210px">
+        
       </div>
-      <input type="button" class="button" value="Add another tag" onClick="addInput('dynamicInput');">
+      <input type="button" class="button" value="Add another tag" onClick="addInput('dynamicInput');" required>
       <script>
         var counter = 1;
         var limit = 5;
@@ -78,7 +91,7 @@
           }
           else {
             var newdiv = document.createElement('div');
-            newdiv.innerHTML = "<br><input type='text' name='myInputs[]' placeholder='Tag associated with your post' required>";
+            newdiv.innerHTML = "<br><br><input type='text' name='myInputs[]' placeholder='Tag associated with your post' required style='float:left; margin-right:300px;width:210px;'>";
             document.getElementById(divName).appendChild(newdiv);
             counter++;
           }
@@ -86,7 +99,7 @@
 
       </script>
       <br>
-
+      <button class="create-post" style="margin-right: 15%;margin-top: 20px; ">Create Post</button><br><br>
     </form>
   </div>
 </body>

@@ -64,13 +64,13 @@
                                     <h1><%= user.followers.number %></h1>
                                     <span>Followes</span>
                                     <button class="btn btn-success"><i class="fa fa-plus-circle"></i>
-                                        Follow</button>
+                                        Follow</button></a>
                             </div>
                             <div class="col-sm-4 stats">
                                 <a href="/<%= user._id %>/follows/0">
                                     <h1><%= user.following.number %></h1>
-                                    <span>Following</span>
-                                    <button class="btn btn-info"><i class="fa fa-user"></i> View Profile</button>
+                                    <span>Following</span></a>
+                                    <!-- <button class="btn btn-info"><i class="fa fa-user"></i> View Profile</button> -->
                             </div>
                             <div class="col-sm-4 stats">
                                 <h1> <%= user.reputation %></h1>
