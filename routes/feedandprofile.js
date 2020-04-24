@@ -105,6 +105,8 @@ router.get('/:id/profile', isLoggedIn, function (req, res) {
 router.post('/search', function (req, res) {
     var flag = false;
     var tag = req.body.searchtext;
+    var tag = tag.toLowerCase();
+    console.log(tag);
     console.log("================")
     console.log(tag);
     Post.find({ tag: tag }).populate('author').

@@ -9,10 +9,13 @@
         overflow: auto;
         max-height: 400px;
         font-family: 'Pacifico', cursive;
-        background: #00c6ff;  /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #0072ff, #00c6ff);  /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #0072ff, #00c6ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        color:white;
+        background: #00c6ff;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #0072ff, #00c6ff);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #0072ff, #00c6ff);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        color: white;
         padding: 20px;
         font-size: 20px;
     }
@@ -40,31 +43,37 @@
     }
 
     .button4 {
-        background: #FFB75E;  /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #ED8F03, #FFB75E);  /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #ED8F03, #FFB75E); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: #FFB75E;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #ED8F03, #FFB75E);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #ED8F03, #FFB75E);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         border-top-left-radius: 10px;
         border-bottom-right-radius: 10px;
         font-size: 20px;
     }
 
     .button5 {
-        background: #ec008c;  /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #fc6767, #ec008c);  /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #fc6767, #ec008c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: #ec008c;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #fc6767, #ec008c);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #fc6767, #ec008c);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         font-size: 20px;
         border-radius: 4px;
     }
 
-    body{
+    body {
         font-family: 'Pacifico', cursive;
         font-size: 20px;
     }
 
-    hr{
-    border: 0;
-    height: 1px;
-    background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(0, 0, 0, 0));
+    hr {
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(0, 0, 0, 0));
     }
 </style>
 <div class="container bootstrap snippet">
@@ -93,11 +102,12 @@
                         <li class=""> <% if(flag2){ %>
                             <a href="/createBlog"><button class="btn btn-info">Create new Pen</button></a>
                             <% } %></li>
-                            <% if(flag){ %>
-                                <form action="/<%= user._id %>/addFollower" method="POST">
-                                    <button class="btn btn-success" style="width:80px;height:50px;font-size:20px;margin:10px;margin-left:80%">Follow</button>
-                                </form>
-                                <% }%>
+                        <% if(flag){ %>
+                        <form action="/<%= user._id %>/addFollower" method="POST">
+                            <button class="btn btn-success"
+                                style="width:80px;height:50px;font-size:20px;margin:10px;margin-left:80%">Follow</button>
+                        </form>
+                        <% }%>
                     </ul>
                     <div class="tab-content">
                         <!-- BEGIN PROFILE -->
@@ -127,13 +137,15 @@
                     <br>
                     <div class="card">
                         <div class="card-body">
-                            <p class="card-text"><%- post.text %></p><hr>
+                            <p class="card-text"><%- post.text %></p>
+                            <hr>
                             <div class="outer">
                                 <h5 class="card-title">
                                     <% post.tag.forEach(function(tag){%>
                                     <button class="button button5"><%= tag %></button>
                                     <% }) %>
                                 </h5>
+
                                 <% if(post.author._id.equals(current)){ %>
                                 <div class="inner">
 
@@ -149,6 +161,12 @@
                                         <button class="button button4">edit</button>
                                     </form>
                                 </div>
+                                <div class="inner">
+                                    <form action="/<%= post._id %>/showfull" method="GET">
+                                        <button class="button button4">show post </button>
+                                    </form>
+                                </div>
+
                                 <% } %>
                             </div>
 

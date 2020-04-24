@@ -1,0 +1,84 @@
+<%- include("./partials/header") %>
+<style>
+    .create-post {
+        background: inherit;
+        border: 5px solid white;
+        padding: 15px;
+        color: white;
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        width: 150px;
+    }
+
+    .inner {
+        background: #FFAFBD;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #ffc3a0, #FFAFBD);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #ffc3a0, #FFAFBD);
+
+        padding: 10px;
+        margin-left: 25%;
+        overflow: auto;
+
+        width: 50%;
+        height: 400px;
+        text-align: center;
+        border: 2px solid white;
+        padding: 20px;
+        -webkit-box-shadow: 0px 20px 20px rgb(150, 27, 97);
+        -moz-box-shadow: 0px 20px 20px rgb(150, 27, 97);
+        box-shadow: 0px 8px 8px rgb(150, 27, 97);
+    }
+
+
+    .button4 {
+        background: #FFB75E;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #ED8F03, #FFB75E);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #ED8F03, #FFB75E);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        font-size: 20px;
+    }
+
+    .button5 {
+        background: #ec008c;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #fc6767, #ec008c);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #fc6767, #ec008c);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        font-size: 20px;
+        border-radius: 4px;
+    }
+
+
+    .button {
+        background: inherit;
+        border: 5px solid white;
+        padding: 15px;
+        color: white;
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        width: 110px;
+    }
+
+    body {
+        background-color: white;
+        font-family: 'Pacifico', cursive;
+        font-size: 20px;
+    }
+</style>
+</head>
+
+<body>
+    <div class="inner">
+        <%- post.text %>
+    </div>
+
+
+
+    <%- include("./partials/footer") %>

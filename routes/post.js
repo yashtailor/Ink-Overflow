@@ -64,6 +64,9 @@ router.post('/createPost', isLoggedIn, function (req, res) {
     text = req.body.text
     tageg = req.body.myInputs
     console.log(tageg);
+    for (var i = 0; i < tageg.length; i++) {
+        tageg[i] = tageg[i].toLowerCase();
+    }
 
     User.findById({ _id: req.user._id }, function (err, user) {
         Post.create({
@@ -92,6 +95,17 @@ router.post('/createPost', isLoggedIn, function (req, res) {
     })
 
 })
+
+router.get('/:id/showfull', function (req, res) {
+    Post.findById(req.params.id).exec(function (err, foundblog) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("showfull", { post: foundblog });
+        }
+    });
+})
+
 router.post('/:id/increaseLike', isLoggedIn, function (req, res) {
     var curUser = req.user;
     if (curUser.reputation >= 11) {
