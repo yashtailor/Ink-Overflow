@@ -17,10 +17,8 @@
         .color {
             
             background: #ff0084;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #33001b, #ff0084);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #33001b, #ff0084); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-
+            background: -webkit-linear-gradient(to right, #33001b, #ff0084);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #33001b, #ff0084); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         }
 
         img {
@@ -106,7 +104,7 @@ background: linear-gradient(to right, #33001b, #ff0084); /* W3C, IE 10+/ Edge, F
 
     setTimeout(function () {
         location.replace("http://127.0.0.1:3000/feed")
-    }, 3000);
+    }, 4000);
     var textWrapper = document.querySelector('.ml3');
     textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
 
