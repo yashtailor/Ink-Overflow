@@ -6,21 +6,43 @@
     background: -webkit-linear-gradient(to right, #fff, #076585);
     /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #fff, #076585);
-
+    font-family: 'Pacifico', cursive;
+    font-size: 20px;
+    text-align: center;
   }
 
-  #rcorners1 {
-    border-radius: 20px;
-    background: black;
-    padding: 20px;
-    width: 200px;
-    height: 30px;
-  }
 
   .center {
     margin: auto;
     padding-left: 500px;
   }
+
+  h3{
+    font-size: 30px;
+    margin-right: 77%;
+  }
+
+  hr {
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(0, 0, 0, 0));
+    }
+
+  .card{
+    border:2px solid rgb(1, 30, 97);
+    padding: 10px;
+    margin: 10px;
+    -webkit-box-shadow: 0px 10px 10px #de1dde;
+    -moz-box-shadow: 0px 10px 10px #de1dde;
+    box-shadow: 0px 8px 8px rgb(1, 30, 97);
+  }
+ .name{
+   font-size: 30px;
+ }
+ .list-group-item{
+   background-color: rgba(1, 30, 97,0.7);
+   color: white;
+ }
 </style>
 
 <body>
@@ -30,7 +52,7 @@
     <% user.followers.users.forEach(function(author){ %>
     <div class="card" style="width: 18rem;">
       <p id="rcorners1" style="text-align: center;">
-        <a href="/<%= author._id %>/profile"><strong><%= author.username %></strong></a>
+        <a href="/<%= author._id %>/profile" class="name"><%= author.username %></a>
 
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
@@ -44,11 +66,10 @@
     </div>
     <% }) %>
     <% }else{ %>
-    <h3 style="color: black; text-align: center;">Following</h3>
+    <h3 style="color: white; text-align: center;">Followings</h3>
     <% user.following.users.forEach(function(author){ %>
     <div class="card" style="width: 18rem;">
-      <a href="/<%= author._id %>/profile"><%= author.username %></a>
-
+      <a href="/<%= author._id %>/profile" class="name"><%= author.username %></a>
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
           <p>followers- <%= author.followers.number %></p>

@@ -15,12 +15,11 @@
 
     <style>
         .color {
-            background: #D3CCE3;
-            /* fallback for old browsers */
-            background: -webkit-linear-gradient(to right, #E9E4F0, #D3CCE3);
-            /* Chrome 10-25, Safari 5.1-6 */
-            background: linear-gradient(to right, #E9E4F0, #D3CCE3);
-            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            
+            background: #ff0084;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #33001b, #ff0084);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #33001b, #ff0084); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 
         }
 
@@ -67,12 +66,36 @@
                 transform: rotate(360deg);
             }
         }
+        .ml3 {
+        font-weight: 900;
+        font-size: 100px;
+        color:white;
+        text-align: center;
+        }
+        i{
+            font-size: 50px;
+        }
+        .ml13 {
+        font-size: 1.9em;
+        text-align: center;
+        color:white;
+        letter-spacing: 0.5em;
+        font-weight: 600;
+        }
+
+        .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+        }
     </style>
 </head>
 
-<body style="background-color:whitesmoke
-">
-    <img src="/images/ink.jpeg" style="width:30%;">
+<body class="color">
+<h1 class="ml3">Ink Overflow</h1>
+<h1 class="ml13">never hesitate to write!</h1>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+    <img src="/images/ink.jpeg" style="width:30%;height:300px">
     <br>
     <div class="main">
         <div class="loader"></div>
@@ -84,7 +107,43 @@
     setTimeout(function () {
         location.replace("http://127.0.0.1:3000/feed")
     }, 3000);
+    var textWrapper = document.querySelector('.ml3');
+    textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
 
+    anime.timeline({loop: true})
+    .add({
+        targets: '.ml3 .letter',
+        opacity: [0,1],
+        easing: "easeInOutQuad",
+        duration: 2250,
+        delay: (el, i) => 150 * (i+1)
+    }).add({
+        targets: '.ml3',
+        opacity: 0,
+        duration: 1000,
+        easing: "easeOutExpo",
+        delay: 1000
+    });
+    textWrapper = document.querySelector('.ml13');
+    textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+    anime.timeline({loop: true})
+    .add({
+        targets: '.ml13 .letter',
+        translateY: [100,0],
+        translateZ: 0,
+        opacity: [0,1],
+        easing: "easeOutExpo",
+        duration: 1400,
+        delay: (el, i) => 300 + 30 * i
+    }).add({
+        targets: '.ml13 .letter',
+        translateY: [0,-100],
+        opacity: [1,0],
+        easing: "easeInExpo",
+        duration: 1200,
+        delay: (el, i) => 100 + 30 * i
+    });
 </script>
 
 </html>

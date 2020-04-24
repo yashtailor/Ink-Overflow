@@ -19,10 +19,8 @@
 
         padding: 10px;
         margin-left: 25%;
-        overflow: auto;
 
         width: 50%;
-        height: 400px;
         text-align: center;
         border: 2px solid white;
         padding: 20px;
@@ -67,9 +65,47 @@
     }
 
     body {
-        background-color: white;
+        background: #DAE2F8;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #D6A4A4, #DAE2F8);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #D6A4A4, #DAE2F8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
         font-family: 'Pacifico', cursive;
         font-size: 20px;
+    }
+
+    .card-footer{
+        background: #F09819;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #EDDE5D, #F09819);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #EDDE5D, #F09819); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+        padding: 10px;
+        margin-left: 25%;
+
+        width: 50%;
+        text-align: center;
+        border: 2px solid white;
+        padding: 20px;
+        -webkit-box-shadow: 0px 20px 20px rgb(150, 27, 97);
+        -moz-box-shadow: 0px 20px 20px rgb(150, 27, 97);
+        box-shadow: 0px 8px 8px rgb(150, 27, 97);
+    }
+
+    .comment-div{
+        max-height: 400px;
+        overflow: auto;
+        background: #AA076B;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #61045F, #AA076B);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #61045F, #AA076B); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+
+    .inner-comment-div{
+        max-height: 400px;
+        overflow: auto;
+        background: #3CA55C;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #B5AC49, #3CA55C);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #B5AC49, #3CA55C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
     }
 </style>
 </head>
@@ -77,6 +113,61 @@
 <body>
     <div class="inner">
         <%- post.text %>
+    </div><br><br>
+    <div class="card-footer">
+        <form action="/<%= post._id %>/increaseLike" method="POST">
+            <button style="border: none; background-color: rgba(0, 0, 0, 0);">
+                <i class="glyphicon glyphicon-heart" style="color:red;height: 30px;"></i>
+            </button>
+            <%= post.likes.number %>
+        </form>
+        <form action="/<%= post._id %>/addComment" method="POST">
+            <input type="text" name="comment_text" placeholder="comment"
+                style="border-bottom: 2px solid rgba(0,0,0,0.75);">
+            <button class="btn btn-info">Comment</button>
+        </form>
+        <hr>
+        <h4>Comments:</h4>
+        <% post.comments.forEach(function(comment){ %>
+        <div style="font-size: 15px;margin:10px; padding: 5px; border-radius: 10px; background-color: rgba(0, 0, 0, 0.75); color: white;"
+            class="comment-div">
+            <p>
+                <a href="/<%= post.author._id %>/profile">@<%= post.author.username %></a>
+                &nbsp; &nbsp;
+                <%= comment.text %>
+            </p>
+            <p>by - <a href="/<%= comment.author._id %>/profile"><%= comment.author.username %></a></p>
+            <form action="/<%= comment._id %>/commentLike" style="float: left;" method="POST">
+                <button style="border: none; background-color: rgba(0, 0, 0, 0);">
+                    <i class="glyphicon glyphicon-heart" style="color:red"> </i>
+                </button>
+                <%= comment.likes.number %> &nbsp;&nbsp;
+            </form>
+
+            <form action="/<%= comment._id %>/<%= comment.author._id %>/addInnerComment" method="POST">
+                <input type="text" name="comment_text" placeholder="comment">
+                <button class="btn btn-success">Comment</button>
+            </form>
+            <% comment.innerComments.forEach(function(innerC){ %>
+            <div
+                style="margin-left: 40px; border:1px solid white; border-radius: 10px; padding: 5px; margin-top: 5px; margin-bottom: 5px;" class="inner-comment-div">
+                <a href="<%= innerC.Tauthor._id %>/profile/">@<%= innerC.Tauthor.username %></a>
+                <p><%= innerC.text %></p>
+                <a href="<%= innerC.Fauthor._id %>/profile/">-<%= innerC.Fauthor.username %></a><br>
+                <form action="/<%= innerC._id %>/innerCommentLike" method="POST" style="float: left;">
+                    <button style="border: none; background-color: rgba(0, 0, 0, 0); ">
+                        <i class="glyphicon glyphicon-heart" style="color:red;"> </i>
+                    </button>
+                    <%= innerC.likes.number %>&nbsp;&nbsp;
+                </form>
+                <form action="/<%= comment._id %>/<%= innerC.Fauthor._id %>/addInnerComment" method="POST">
+                    <input type="text" placeholder="comment" name="comment_text">
+                    <button class="btn btn-info">comment</button>
+                </form>
+            </div>
+            <% }) %>
+        </div>
+        <% }) %>
     </div>
 
 

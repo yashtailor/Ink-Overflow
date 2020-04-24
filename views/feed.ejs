@@ -120,13 +120,9 @@
     .comment-div {
         max-height: 250px;
         overflow: auto;
-        background: #e65c00;
-        /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #F9D423, #e65c00);
-        /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #F9D423, #e65c00);
-        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+        background: #6441A5;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #2a0845, #6441A5);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #2a0845, #6441A5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     }
 
     body {
@@ -146,6 +142,16 @@
         background: linear-gradient(to right, #2C5364, #203A43, #0F2027);
         /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         font-family: 'Pacifico', cursive;
+    }
+
+    .inner-comment-div{
+        background: #e65c00;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #F9D423, #e65c00);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #F9D423, #e65c00);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
     }
 </style>
 
@@ -170,7 +176,7 @@
         <p><%- post.text %></p>
         <div class="card-header">
             <% post.tag.forEach(function(tag){%>
-            <button class="button button5"><%= tag %></button>
+            <button class="button button5"><a href="/search/<%= tag %>" style="color:white"><%= tag %></a></button>
             <% }) %>
 
 
@@ -218,7 +224,7 @@
                 </form>
                 <% comment.innerComments.forEach(function(innerC){ %>
                 <div
-                    style="margin-left: 40px; border:1px solid white; border-radius: 10px; padding: 5px; margin-top: 5px; margin-bottom: 5px;">
+                    style="margin-left: 40px; border:1px solid white; border-radius: 10px; padding: 5px; margin-top: 5px; margin-bottom: 5px;" class="inner-comment-div">
                     <a href="<%= innerC.Tauthor._id %>/profile/">@<%= innerC.Tauthor.username %></a>
                     <p><%= innerC.text %></p>
                     <a href="<%= innerC.Fauthor._id %>/profile/">-<%= innerC.Fauthor.username %></a><br>

@@ -97,7 +97,9 @@ router.post('/createPost', isLoggedIn, function (req, res) {
 })
 
 router.get('/:id/showfull', function (req, res) {
-    Post.findById(req.params.id).exec(function (err, foundblog) {
+    Post.findById(req.params.id).populate('author').
+    populate('likes').
+    populate({ path: 'comments', populate: [{ path: 'author' }, { path: 'likes' }, { path: 'innerComments', populate: [{ path: 'Fauthor' }, { path: 'Tauthor' }, { path: 'likes', populate: [{ path: 'comment' }, { path: 'authors', populate: 'users' }] }, { path: 'comment' }] }, { path: 'post' }] }).exec(function (err, foundblog) {
         if (err) {
             console.log(err);
         } else {
