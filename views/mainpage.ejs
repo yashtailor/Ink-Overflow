@@ -9,15 +9,11 @@
         overflow: auto;
         max-height: 400px;
         font-family: 'Pacifico', cursive;
-        background: #00c6ff;
-        /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #0072ff, #00c6ff);
-        /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #0072ff, #00c6ff);
         /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        color: white;
+        color: black;
         padding: 20px;
         font-size: 20px;
+        background-color: white;
     }
 
     .button {
@@ -35,6 +31,7 @@
     #outer {
         width: 180%;
         text-align: center;
+        
     }
 
     .inner {
@@ -86,6 +83,13 @@
         height: 1px;
         background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(0, 0, 0, 0));
     }
+    .grid-body{
+        background: #00c6ff;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #0072ff, #00c6ff);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #0072ff, #00c6ff);
+    }
 </style>
 <div class="container bootstrap snippet">
     <div class="row">
@@ -97,7 +101,7 @@
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ1P9NIBPbZvN_8V2uZ8cVfm4Rnwwel8_UF_89HT238qUQAOZ1p&usqp=CAU"
                             class="img-circle" alt="">
                     </div>
-                    <div class="col-xs-7" style="margin-top: 40px;">
+                    <div class="col-xs-7" style="margin-top: 40px;color:white;">
                         <h2><%= user.username %></h2>
                         <p><%= user.email %></p>
                         <p><%= user.desc %></p>
@@ -110,7 +114,7 @@
                 <div class="grid-body">
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
-                        <li class=""> <% if(flag2){ %>
+                        <li style="border: 0px;"> <% if(flag2){ %>
                             <a href="/createBlog"><button class="btn btn-info">Create new Pen</button></a>
                             <% } %></li>
                         <% if(flag){ %>
@@ -172,13 +176,13 @@
                                         <button class="button button4">edit</button>
                                     </form>
                                 </div>
+
+                                <% } %>
                                 <div class="inner">
-                                    <form action="/<%= post._id %>/showfull" method="GET">
+                                    <form action="/<%= post._id %>/showfull/1" method="GET">
                                         <button class="button button6">show post </button>
                                     </form>
                                 </div>
-
-                                <% } %>
                             </div>
 
                         </div>

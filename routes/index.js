@@ -30,8 +30,8 @@ router.get('/register', function (req, res) {
 })
 
 router.post('/register', function (req, res) {
-    if (req.body.username == "yash" || req.body.username == "palak" || req.body.username == "tanaya" || req.body.username == "shivamdhar") {
-        User.register(new User({ username: req.body.username, reputation: 11 }), req.body.password, function (err, user) {
+    if (req.body.username == "Yash Tailor" || req.body.username == "Palak Mantry" || req.body.username == "Tanaya Lad" || req.body.username == "Shivamdhar Dubey") {
+        User.register(new User({ username: req.body.username, reputation: 11,desc: req.body.desc, email: req.body.email }), req.body.password, function (err, user) {
             if (err) {
                 console.log(err)
                 res.redirect('/')

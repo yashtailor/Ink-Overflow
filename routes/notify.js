@@ -21,6 +21,11 @@ router.post('/user/clrNotifs', function (req, res) {
     console.log('======REMOVED NOTIFS=======');
     Notif.find({ author: curUser }).remove().exec(function (err, removedNotif) {
         console.log(removedNotif);
+        User.findById(req.user._id).exec(function(err,user){
+            user.notifs.splice(0,user.notifs.length);
+            user.save();
+        })
+        
     })
     res.redirect('/' + curUser._id + '/profile');
 })

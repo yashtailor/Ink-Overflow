@@ -19,7 +19,15 @@ var indexRoutes = require("./routes/index"),
     notifyRoutes = require("./routes/notify");
 
 var app = express()
-mongoose.connect('mongodb://localhost/ink_overflow')
+//mongoose.connect('mongodb://localhost/ink_overflow')
+var MONGO_STRING = 'mongodb+srv://yash:yash@cluster0-jyzyx.mongodb.net/test?retryWrites=true&w=majority'
+mongoose.connect(MONGO_STRING, {
+    dbName: 'ink',
+    // useNewUrlParser: true,
+    // useFindAndModify: false,
+    // useCreateIndex: true,
+    // useUnifiedTopology: true,
+});
 app.set('view engine', 'ejs')
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }))

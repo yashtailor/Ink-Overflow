@@ -18,7 +18,7 @@
 
     .sidenav {
         height: 100%;
-        width: 160px;
+        width: 150px;
         position: fixed;
         z-index: 1;
         top: 0;
@@ -103,14 +103,13 @@
         background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
     }
 
-    input {
+    input,textarea {
         border-top: hidden;
         border-left: hidden;
         border-right: hidden;
         border-bottom: 2px solid lightblue;
         background-color: rgba(0, 0, 0, 0);
     }
-
     .btn-info,
     .btn-success {
         width: 80px;
@@ -131,6 +130,8 @@
         background: -webkit-linear-gradient(to right, #fff, #076585);
         /* Chrome 10-25, Safari 5.1-6 */
         background: linear-gradient(to right, #fff, #076585);
+        font-family: 'Pacifico', cursive;
+        font-size: 20px;
         /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     }
 
@@ -153,8 +154,19 @@
         /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
     }
-</style>
 
+    .inner {
+        display: inline-block;
+    }
+
+    .button6{
+        background-color: rgb(60, 117, 163);
+    }
+
+    .card-header{
+
+    }
+</style>
 <div class="sidenav alphabeauty">
     <h3 style="color: rgba(255,255,255,0.4);text-align: center;margin-right: 15px;">Tags</h3>
     <% tagsList.forEach(function(tag){ %>
@@ -173,6 +185,11 @@
     <% posts.forEach(function(post){ %>
 
     <div class="card">
+        <div class="inner" style="margin-left: 85%;">
+            <form action="/<%= post._id %>/showfull/1" method="GET">
+                <button class="button button6">show post</button>
+            </form>
+        </div>
         <p><%- post.text %></p>
         <div class="card-header">
             <% post.tag.forEach(function(tag){%>
@@ -196,8 +213,8 @@
                 <%= post.likes.number %>
             </form>
             <form action="/<%= post._id %>/addComment" method="POST">
-                <input type="text" name="comment_text" placeholder="comment"
-                    style="border-bottom: 2px solid rgba(0,0,0,0.75);">
+                
+                <textarea name="comment_text" cols="50" style="border-bottom: 2px solid rgba(0,0,0,0.75);"></textarea>
                 <button class="btn btn-info">Comment</button>
             </form>
             <hr>
@@ -217,25 +234,40 @@
                     </button>
                     <%= comment.likes.number %> &nbsp;&nbsp;
                 </form>
-
+                <% if(isLoggedIn && (String(curUserId) == String(comment.author._id))){ %>
+                    <form action="/deleteComment/<%= comment._id %>"
+                        method="POST">
+                        <button style="border: none; background-color: rgba(255, 255, 255, 0);">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                <% } %>
                 <form action="/<%= comment._id %>/<%= comment.author._id %>/addInnerComment" method="POST">
-                    <input type="text" name="comment_text" placeholder="comment">
+                    <textarea name="comment_text" cols="50"></textarea>
                     <button class="btn btn-success">Comment</button>
                 </form>
                 <% comment.innerComments.forEach(function(innerC){ %>
                 <div
                     style="margin-left: 40px; border:1px solid white; border-radius: 10px; padding: 5px; margin-top: 5px; margin-bottom: 5px;" class="inner-comment-div">
-                    <a href="<%= innerC.Tauthor._id %>/profile/">@<%= innerC.Tauthor.username %></a>
+                    <a href="/<%= innerC.Tauthor._id %>/profile">@<%= innerC.Tauthor.username %></a>
                     <p><%= innerC.text %></p>
-                    <a href="<%= innerC.Fauthor._id %>/profile/">-<%= innerC.Fauthor.username %></a><br>
+                    <a href="/<%= innerC.Fauthor._id %>/profile">-<%= innerC.Fauthor.username %></a><br>
                     <form action="/<%= innerC._id %>/innerCommentLike" method="POST" style="float: left;">
                         <button style="border: none; background-color: rgba(0, 0, 0, 0); ">
                             <i class="glyphicon glyphicon-heart" style="color:red;"> </i>
                         </button>
                         <%= innerC.likes.number %>&nbsp;&nbsp;
                     </form>
-                    <form action="/<%= comment._id %>/<%= innerC.Fauthor._id %>/addInnerComment" method="POST">
-                        <input type="text" placeholder="comment" name="comment_text">
+                    <% if(isLoggedIn && (String(curUserId) == String(innerC.Fauthor._id))){ %>
+                        <form action="/deleteInnerComment/<%= innerC._id %>"
+                            method="POST">
+                            <button style="border: none; background-color: rgba(0, 0, 0, 0);">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    <% } %>
+                    <form action="/<%= comment._id %>/<%= innerC.Fauthor._id %>/addInnerComment/f" method="POST">
+                        <textarea name="comment_text" cols="50"></textarea>
                         <button class="btn btn-info">comment</button>
                     </form>
                 </div>

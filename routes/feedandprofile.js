@@ -27,6 +27,8 @@ router.get('/', function (req, res) {
 })
 
 router.get('/feed', function (req, res) {
+    if(req.isAuthenticated())var loggedIn=true;
+    else var loggedIn = false;
     var flag = false;
     var tagsList = {};
     Post.find().populate('author').
@@ -51,35 +53,110 @@ router.get('/feed', function (req, res) {
                 return b[1] - a[1];
             });
             console.log(sorted)
-            res.render('feed', { posts: posts, flag: flag, tagsList: sorted, currentSearch: undefined })
+            if(loggedIn)
+            res.render('feed', { posts: posts, flag: flag, tagsList: sorted, currentSearch: undefined,curUserId:req.user._id,isLoggedIn:loggedIn})
+            else res.render('feed', { posts: posts, flag: flag, tagsList: sorted, currentSearch: undefined,curUserId:false,isLoggedIn:loggedIn})
         })
 })
+
+router.get('/inkmates', function (req, res) {
+    if(req.isAuthenticated())var loggedIn=true;
+    else var loggedIn = false;
+    var flag = false;
+    var tagsList = {};
+    var followingUsers = [];
+    User.findById(req.user._id).populate('following.users').exec(function(err,user){
+        if(err)console.log(err)
+        user.following.users.forEach(function(followinguser){
+            followingUsers.push(followinguser._id);
+        })
+        console.log('followingUsers',followingUsers)
+        Post.find({}).populate('author').exec(function(err,posts){
+            posts.forEach(function(post){
+                //console.log('PID',post.author)
+            })
+        })
+        Post.find({'author':{$in:followingUsers}}).populate('author').
+        populate('likes').
+        populate({ path: 'comments', populate: [{ path: 'author' }, { path: 'likes' }, { path: 'innerComments', populate: [{ path: 'Fauthor' }, { path: 'Tauthor' }, { path: 'likes', populate: [{ path: 'comment' }, { path: 'authors', populate: 'users' }] }, { path: 'comment' }] }, { path: 'post' }] }).
+        sort({ _id: -1 }).exec(function (err, posts) {
+            Post.find({},function(err,innerposts){
+                innerposts.forEach(function (post) {
+                    post.tag.forEach(function (tag) {
+                        tagsList[tag] = 0;
+                    })
+                })
+                innerposts.forEach(function (post) {
+                    post.tag.forEach(function (tag) {
+                        tagsList[tag] += 1;
+                    })
+                })
+                var arrayOfTags = [];
+                for (var tage in tagsList) {
+                    arrayOfTags.push([tage, tagsList[tage]]);
+                }
+                var sorted = arrayOfTags.sort(function (a, b) {
+                    return b[1] - a[1];
+                });
+                console.log(sorted)
+                if(loggedIn)
+                res.render('feed', { posts: posts, flag: flag, tagsList: sorted, currentSearch: undefined,curUserId:req.user._id,isLoggedIn:loggedIn})
+                else res.render('feed', { posts: posts, flag: flag, tagsList: sorted, currentSearch: undefined,curUserId:false,isLoggedIn:loggedIn})
+            })
+            })
+    })
+})
+
 router.get('/decideUser', function (req, res) {
     var flag = true;
+    var tagsList = {};
+    if(req.isAuthenticated())var loggedIn=true;
+    else var loggedIn = false;
     Post.find().populate('author').
         populate('likes').
         populate({ path: 'comments', populate: [{ path: 'author' }, { path: 'likes' }, { path: 'innerComments', populate: [{ path: 'Fauthor' }, { path: 'Tauthor' }, { path: 'likes', populate: [{ path: 'comment' }, { path: 'authors', populate: 'users' }] }, { path: 'comment' }] }, { path: 'post' }] }).
         sort({ _id: -1 }).exec(function (err, posts) {
             posts.forEach(function (post) {
-                post.comments.forEach(function (comment) {
-                    // console.log(comment.innerComments.likes)
+                post.tag.forEach(function (tag) {
+                    tagsList[tag] = 0;
                 })
             })
-            res.render('feed', { posts: posts, flag: flag })
+            posts.forEach(function (post) {
+                post.tag.forEach(function (tag) {
+                    tagsList[tag] += 1;
+                })
+            })
+            var arrayOfTags = [];
+            for (var tage in tagsList) {
+                arrayOfTags.push([tage, tagsList[tage]]);
+            }
+            var sorted = arrayOfTags.sort(function (a, b) {
+                return b[1] - a[1];
+            });
+            console.log(sorted)
+            if(loggedIn) res.render('feed', { posts: posts, flag: flag, tagsList: sorted, currentSearch: undefined,curUserId:req.user._id,isLoggedIn:loggedIn})
+            else res.render('feed', { posts: posts, flag: flag, tagsList: sorted, currentSearch: undefined,curUserId:false,isLoggedIn:loggedIn})
         })
 })
 
+router.post('/userSearch',function(req,res){
+    var usernameToBeSearched = req.body.username;
+    console.log('username',usernameToBeSearched)
+    User.findOne({username:usernameToBeSearched},function(err,foundUser){
+        if(err || !foundUser)res.redirect('/feed');
+        else res.redirect('/'+foundUser._id+'/profile');
+    })
+})
 
-router.get('/:id/profile', isLoggedIn, function (req, res) {
+router.get('/:id/profile', function (req, res) {
     var flag = true;
     var flag2 = false;
     // console.log("=====================")
     console.log(req.params.id);
-    console.log(req.user._id);
-    console.log(typeof (req.params.id))
-    console.log(typeof (req.user._id))
-
-    if (String(req.params.id) === String(req.user._id)) {
+    if(!req.isAuthenticated(req.user)){
+        flag = false;
+    }
+    else if ((String(req.params.id) === String(req.user._id))) {
         flag = false;
         flag2 = true;
         console.log("==========================");
@@ -98,11 +175,17 @@ router.get('/:id/profile', isLoggedIn, function (req, res) {
         .exec(function (err, user2) {
             console.log(flag)
             console.log('TOBELOOKEDUSER', user2.followers)
-            res.render('mainpage', { user: user2, flag: flag, flag2: flag2, current: req.user._id })
+            if(!req.isAuthenticated()){
+                res.render('mainpage', { user: user2, flag: flag, flag2: flag2, current: false })
+            }else{
+                res.render('mainpage', { user: user2, flag: flag, flag2: flag2, current: req.user._id })
+            }
         })
 })
 
 router.post('/search', function (req, res) {
+    if(req.isAuthenticated())var loggedIn=true;
+    else var loggedIn = false;
     var flag = false;
     var tag = req.body.searchtext;
     var tag = tag.toLowerCase();
@@ -134,13 +217,16 @@ router.post('/search', function (req, res) {
                 });
                 console.log(sorted);
                 var count = 0;
-                res.render('feed', { posts: posts, flag: flag, tagsList: sorted, currentSearch: tag })
+                if(loggedIn) res.render('feed', { posts: posts, flag: flag, tagsList: sorted, currentSearch: undefined,curUserId:req.user._id,isLoggedIn:loggedIn})
+                else res.render('feed', { posts: posts, flag: flag, tagsList: sorted, currentSearch: undefined,curUserId:false,isLoggedIn:loggedIn})
             })
         })
 
 })
 
 router.get('/search/:id', function (req, res) {
+    if(req.isAuthenticated())var loggedIn=true;
+    else var loggedIn = false;
     var flag = false;
     var tag = req.params.id;
     console.log("================")
@@ -170,7 +256,8 @@ router.get('/search/:id', function (req, res) {
                 });
                 console.log(sorted);
                 var count = 0;
-                res.render('feed', { posts: posts, flag: flag, tagsList: sorted, currentSearch: tag })
+                if(loggedIn)res.render('feed', { posts: posts, flag: flag, tagsList: sorted, currentSearch: undefined,curUserId:req.user._id,isLoggedIn:loggedIn})
+                else res.render('feed', { posts: posts, flag: flag, tagsList: sorted, currentSearch: undefined,curUserId:false,isLoggedIn:loggedIn})
             })
         })
 
@@ -180,7 +267,8 @@ router.get('/search/:id', function (req, res) {
 router.get('/:id/follows/:num', function (req, res) {
     var userId = req.params.id;
     var num = req.params.num;
-    if (String(req.user._id) == String(userId)) {
+    if(!req.isAuthenticated())isCurrentUser=false;
+    else if (String(req.user._id) == String(userId)) {
         var isCurrentUser = true;
     }
     User.findById(userId).populate('followers.users following.users').exec(function (err, Tuser) {
@@ -234,11 +322,21 @@ router.post('/:id/addFollower', function (req, res) {
 router.post('/unfollow/:id', function (req, res) {
     User.findById(req.user._id).populate('following.users').exec(function (err, user) {
         var len = user.following.users.length;
-        console.log('user', user)
-        console.log('len', len);
         for (var i = 0; i < len; i++) {
             if (String(user.following.users[i]._id) == String(req.params.id)) {
                 user.following.users.splice(i, 1);
+                user.following.number -= 1;
+                User.findById(req.params.id).populate('followers.users').exec(function(err,inneruser){
+                    var len = inneruser.followers.users.length;
+                    for (var i = 0; i < len; i++) {
+                        if (String(inneruser.followers.users[i]._id) == String(req.user._id)) {
+                            inneruser.followers.users.splice(i, 1);
+                            inneruser.followers.number -= 1;
+                            inneruser.save();
+                            break;
+                        }
+                    }
+                })
                 user.save();
                 res.redirect('/' + req.user._id + '/follows/0')
                 break;
@@ -247,6 +345,23 @@ router.post('/unfollow/:id', function (req, res) {
     })
 })
 
+router.post('/deleteComment/:id',function(req,res){
+    var commentId = req.params.id;
+    Comment.findByIdAndDelete(commentId,function(err,deletedComment){
+        if(err)console.log(err);
+        else console.log('deleted',deletedComment);
+        res.redirect('/feed');
+    })
+})
+
+router.post('/deleteInnerComment/:id',function(req,res){
+    var commentId = req.params.id;
+    InnerComment.findByIdAndDelete(commentId,function(err,deletedComment){
+        if(err)console.log(err);
+        else console.log('deleted',deletedComment);
+        res.redirect('/feed');
+    })
+})
 
 function isLoggedIn(req, res, next) {
     console.log(req.user)

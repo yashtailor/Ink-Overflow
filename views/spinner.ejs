@@ -5,6 +5,8 @@
     <title>InkOverflow</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Literature Helping Community">
+    <meta name="keywords" content="inkoverflow, ink overflow, literature, blogs">
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@577&display=swap" rel="stylesheet"
         rel="stylesheet">
 
@@ -86,6 +88,7 @@
         line-height: 1em;
         }
     </style>
+    <meta name="google-site-verification" content="P1UgVhk3FN-dnvCRPTuMPIvmT63p16jdAlS1EK60uDY" />
 </head>
 
 <body class="color">
@@ -103,7 +106,8 @@
 <script>
 
     setTimeout(function () {
-        location.replace("http://127.0.0.1:3000/feed")
+        location.replace("http://inkoverflow.herokuapp.com/feed")
+        //location.replace("http://localhost:3000/feed");
     }, 4000);
     var textWrapper = document.querySelector('.ml3');
     textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");

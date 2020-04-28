@@ -51,7 +51,7 @@ router.post("/edit/:id", function (req, res) {
             res.redirect("/register");
         } else {
             //    alert('changes updated sucessfully!');
-            res.redirect("/");
+            res.redirect("/"+req.user._id+'/profile');
         }
     });
 });
@@ -96,20 +96,27 @@ router.post('/createPost', isLoggedIn, function (req, res) {
 
 })
 
-router.get('/:id/showfull', function (req, res) {
+router.get('/:id/showfull/:bid', function (req, res) {
+    if(req.isAuthenticated())var loggedIn=true;
+    else var loggedIn = false;
+    if(req.params.bid == 0)var flag = true;
+    else flag = false;
     Post.findById(req.params.id).populate('author').
     populate('likes').
     populate({ path: 'comments', populate: [{ path: 'author' }, { path: 'likes' }, { path: 'innerComments', populate: [{ path: 'Fauthor' }, { path: 'Tauthor' }, { path: 'likes', populate: [{ path: 'comment' }, { path: 'authors', populate: 'users' }] }, { path: 'comment' }] }, { path: 'post' }] }).exec(function (err, foundblog) {
         if (err) {
             console.log(err);
         } else {
-            res.render("showfull", { post: foundblog });
+            if(loggedIn)
+            res.render("showfull", { post: foundblog,curUserId:req.user._id,isLoggedIn:loggedIn,flag:flag});
+            else  res.render("showfull", { post: foundblog,curUserId:false,isLoggedIn:loggedIn,flag:flag});
         }
     });
 })
 
 router.post('/:id/increaseLike', isLoggedIn, function (req, res) {
     var curUser = req.user;
+    var page = req.params.did;
     if (curUser.reputation >= 11) {
         Post.findById(req.params.id)
             .populate('likes').populate('author').populate('comments').
@@ -418,4 +425,328 @@ function isLoggedIn(req, res, next) {
         res.redirect('/login')
     }
 }
+
+// ===================================================== 
+// THIS IS FOR RETURNING TO SHOW FULL
+
+router.post('/:id/increaseLike/:pid', isLoggedIn, function (req, res) {
+    var curUser = req.user;
+    var page = req.params.did;
+    if (curUser.reputation >= 11) {
+        Post.findById(req.params.id)
+            .populate('likes').populate('author').populate('comments').
+            exec(function (err, post) {
+                var likesId = post.likes._id;
+                Like.findById(likesId).populate('authors post').exec(function (err, like) {
+                    //console.log('LIKEEEEEEE',like)
+                    //console.log('CUR  ', curUser._id)
+                    var flag = true;
+                    var curId = req.user._id;
+                    User.findById(post.author._id, function (err, puser) {
+                        var postUser = puser;
+                        postUser.reputation += 1;
+                        for (var i = 0; i < like.authors.length; i++) {
+                            var author = like.authors[i];
+                            console.log('AUTHOR  ', author._id)
+                            //console.log(String(author._id) == String(curId))
+                            if (String(author._id) == String(curId)) {
+                                flag = false;
+                                like.number -= 1;
+                                like.authors.splice(i, 1);
+                                like.save(function (err, like) {
+                                    res.redirect('/feed')
+                                })
+                                break;
+                            }
+                        }
+                        if (flag) {
+                            like.number += 1;
+                            like.authors.push(curUser)
+                            like.save()
+                            Notif.create({
+                                text: 'you liked the post of ' + postUser.username,
+                                author: curUser,
+                                time: new Date(),
+                            }, function (err, notif1) {
+                                if (err) console.log('eer', err);
+                                curUser.notifs.push(notif1._id);
+                                curUser.save();
+                                //console.log('notif1',notif1);
+                            })
+                            if (String(puser._id) != String(curUser._id)) {
+                                Notif.create({
+                                    text: curUser.username + ' has liked your comment -' + post.text,
+                                    author: postUser,
+                                    time: new Date(),
+                                }, function (err, notif2) {
+                                    if (err) console.log('err', err);
+                                    postUser.notifs.push(notif2._id);
+                                    postUser.save();
+                                    //console.log(notif2);
+                                    res.redirect('/'+req.params.pid+'/showfull/1')
+                                })
+                            } else res.redirect('/'+req.params.pid+'/showfull/1')
+                        }
+                    })
+                })
+            })
+    } else {
+        res.redirect('/'+req.params.pid+'/showfull/0')
+    }
+})
+
+router.post('/:id/commentLike/:pid', isLoggedIn, function (req, res) {
+    var currentUser = req.user;
+    var curUser = req.user;
+    if (curUser.reputation >= 11) {
+        Comment.findById(req.params.id)
+            .populate('likes').populate('author').
+            exec(function (err, post) {
+                var likesId = post.likes._id;
+                CommentLike.findById(likesId).populate('authors').exec(function (err, like) {
+                    var flag = true;
+                    // var curId = req.user._id;
+                    User.findById(post.author._id, function (err, puser) {
+                        var postUser = puser;
+                        postUser.reputation += 1;
+                        for (var i = 0; i < like.authors.length; i++) {
+                            var author = like.authors[i];
+                            console.log('AUTHOR  ', author._id)
+                            if (String(author._id) == String(currentUser.id)) {
+                                flag = false;
+                                like.number -= 1;
+                                like.authors.splice(i, 1);
+                                like.save(function (err, like) {
+                                    res.redirect('/feed')
+                                })
+                                break;
+                            }
+                        }
+                        if (flag) {
+                            like.number += 1;
+                            like.authors.push(currentUser)
+                            like.save()
+                            Notif.create({
+                                text: 'you liked the comment of ' + postUser.username + ' -' + post.text,
+                                author: curUser,
+                                time: new Date(),
+                            }, function (err, notif1) {
+                                if (err) console.log('eer', err);
+                                curUser.notifs.push(notif1._id);
+                                curUser.save();
+                                //console.log('notif1',notif1);
+                            })
+                            if (String(puser._id) != String(curUser._id)) {
+                                Notif.create({
+                                    text: curUser.username + ' has liked your comment -' + post.text,
+                                    author: postUser,
+                                    time: new Date(),
+                                }, function (err, notif2) {
+                                    if (err) console.log('err', err);
+                                    postUser.notifs.push(notif2._id);
+                                    postUser.save();
+                                    //console.log(notif2);
+                                    res.redirect('/'+req.params.pid+'/showfull/1')
+                                })
+                            } else res.redirect('/'+req.params.pid+'/showfull/1')
+                        }
+                    })
+                })
+            })
+    } else {
+        res.redirect('/'+req.params.pid+'/showfull/0')
+    }
+})
+
+router.post('/:id/innerCommentLike/:pid', isLoggedIn, function (req, res) {
+    var curUser = req.user;
+    var currentUser = req.user;
+    if (curUser.reputation >= 11) {
+        InnerComment.findById(req.params.id)
+            .populate('likes').populate('author').
+            exec(function (err, post) {
+                var likesId = post.likes._id;
+                CommentLike.findById(likesId).populate('authors').exec(function (err, like) {
+                    console.log('LIKEEEEEEE', like)
+                    //console.log('CUR  ',curUser._id)
+                    var flag = true;
+                    var curId = req.user._id;
+                    User.findById(post.Fauthor._id, function (err, puser) {
+                        var postUser = puser;
+                        postUser.reputation += 1;
+                        for (var i = 0; i < like.authors.length; i++) {
+                            var author = like.authors[i];
+                            console.log('AUTHOR  ', author._id)
+                            //console.log(String(author._id) == String(curId))
+                            if (String(author._id) == String(curId)) {
+                                flag = false;
+                                like.number -= 1;
+                                like.authors.splice(i, 1);
+                                like.save(function (err, like) {
+                                    res.redirect('/feed')
+                                })
+                                break;
+                            }
+                        }
+                        if (flag) {
+                            like.number += 1;
+                            like.authors.push(curUser)
+                            like.save()
+                            Notif.create({
+                                text: 'you liked the comment of ' + postUser.username + ' -' + post.text,
+                                author: curUser,
+                                time: new Date(),
+                            }, function (err, notif1) {
+                                if (err) console.log('eer', err);
+                                curUser.notifs.push(notif1._id);
+                                curUser.save();
+                                //console.log('notif1',notif1);
+                            })
+                            if (String(puser._id) != String(curUser._id)) {
+                                Notif.create({
+                                    text: curUser.username + ' has liked your comment -' + post.text,
+                                    author: postUser,
+                                    time: new Date(),
+                                }, function (err, notif2) {
+                                    if (err) console.log('err', err);
+                                    postUser.notifs.push(notif2._id);
+                                    postUser.save();
+                                    //console.log(notif2);
+                                    res.redirect('/'+req.params.pid+'/showfull/1')
+                                })
+                            }else res.redirect('/'+req.params.pid+'/showfull/1')
+                        }
+                    })
+                })
+            })
+    } else {
+        res.redirect('/'+req.params.pid+'/showfull/0')
+    }
+})
+
+router.post('/:id/addComment/:pid', isLoggedIn, function (req, res) {
+    var curUser = req.user;
+    var postId = req.params.id;
+    Post.findById(postId).populate({ path: 'author', populate: { path: 'notifs' } }).exec(function (err, post) {
+        CommentLike.create({
+            post: post
+        }, function (err, like) {
+            Comment.create({
+                text: req.body.comment_text,
+                author: curUser,
+                post: post,
+                likes: like,
+            }, function (err, comment) {
+                post.comments.push(comment);
+                postuser = post.author;
+                console.log('POSTUSER', postuser);
+                Notif.create({
+                    text: 'you commented on the post of ' + postuser.username + ' -' + comment.text,
+                    author: curUser,
+                    time: new Date(),
+                }, function (err, notif1) {
+                    if (err) console.log('eer', err);
+                    curUser.notifs.push(notif1._id);
+                    curUser.save();
+                    //console.log('notif1',notif1);
+                })
+                if (String(postuser._id) != String(curUser._id)) {
+                    Notif.create({
+                        text: curUser.username + ' has commented on your post -' + comment.text,
+                        author: postuser,
+                        time: new Date(),
+                    }, function (err, notif2) {
+                        if (err) console.log('err', err);
+                        postuser.notifs.push(notif2._id);
+                        postuser.save();
+                        //console.log(notif2);
+                        post.save();
+                        res.redirect('/'+req.params.pid+'/showfull/1')
+                    })
+                } else {
+                    post.save();
+                    res.redirect('/'+req.params.pid+'/showfull/1')
+                }
+            })
+        })
+    })
+})
+
+
+
+router.post('/:cid/:aid/addInnerComment/:pid', isLoggedIn, function (req, res) {
+    var curUserReq;
+    var tauthor;
+    User.findById(req.user._id, function (err, curUser) {
+        curUserReq = curUser;
+    })
+    User.findById(req.params.aid, function (err, aUser) {
+        tauthor = aUser;
+    })
+    var commentId = req.params.cid;
+    Comment.findById(commentId).populate('author').exec(function (err, comment) {
+        CommentLike.create({
+            comment: comment
+        }, function (err, like) {
+            InnerComment.create({
+                text: req.body.comment_text,
+                Fauthor: curUserReq,
+                Tauthor: tauthor,
+                comment: comment,
+                likes: like,
+            }, function (err, Innercomment) {
+                //console.log('inner', Innercomment)
+                comment.innerComments.push(Innercomment);
+                Notif.create({
+                    text: 'you replied to the comment of ' + tauthor.username + ' -' + Innercomment.text,
+                    author: curUserReq,
+                    time: new Date(),
+                }, function (err, notif1) {
+                    if (err) console.log('eer', err);
+                    curUserReq.notifs.push(notif1._id);
+                    curUserReq.save();
+                    //console.log('notif1',notif1);
+                })
+                if (String(tauthor._id) != String(curUserReq._id)) {
+                    Notif.create({
+                        text: curUserReq.username + ' has replied to your comment -' + Innercomment.text,
+                        author: tauthor,
+                        time: new Date(),
+                    }, function (err, notif2) {
+                        if (err) console.log('err', err);
+                        tauthor.notifs.push(notif2._id);
+                        tauthor.save();
+                        //console.log(notif2);
+                        res.redirect('/'+req.params.pid+'/showfull/1')
+                        comment.save();
+                    })
+                } else {
+                    comment.save();
+                    res.redirect('/'+req.params.pid+'/showfull/1')
+                }
+            })
+        })
+    })
+})
+
+router.get('/search_member', function(req, res) {
+    var regex = new RegExp(req.query["term"], 'i');
+    var query = User.find({username: regex}, { 'username': 1 }).sort({"updated_at":-1}).sort({"created_at":-1}).limit(20);
+    console.log('regex',regex)
+       // Execute query in a callback and return users list
+   query.exec(function(err, users) {
+       if (!err) {
+          // Method to construct the json result set
+          var result = buildResultSet(users);
+          res.send(result, {
+             'Content-Type': 'application/json'
+          }, 200);
+       } else {
+          res.send(JSON.stringify(err), {
+             'Content-Type': 'application/json'
+          }, 404);
+       }
+    });
+ });
+
 module.exports = router;
